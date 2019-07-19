@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration date="2019/07/19" author="e.World Technology Ltd.">
+  <project id="{21082F44-1044-49E8-8088-092C72267B54}" file="C:\xampp\htdocs\costsheet\costsheet_prj.pmp" name="costsheet_prj" product="PHPMaker" version="15.0" datetime="2019/07/19 17:04:03" languagefolder="phplang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0">
+    <table id="cf01_home" name="cf01_home.php" caption="Home" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t001_liner" name="t001_liner" caption="Liner" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t002_shipper" name="t002_shipper" caption="Shipper" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t003_chargecode" name="t003_chargecode" caption="Charge Code" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t004_vendor" name="t004_vendor" caption="Vendor" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t096_employees" name="t096_employees" caption="Users" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t097_userlevels" name="t097_userlevels" caption="Hak Akses" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t098_userlevelpermissions" name="t098_userlevelpermissions" caption="Hak Akses Detail" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t099_audittrail" name="t099_audittrail" caption="Activity Log" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+  </project>
+</configuration>
