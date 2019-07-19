@@ -77,17 +77,6 @@ $t002_shipper_view->showMessage();
 <input type="hidden" name="t" value="t002_shipper">
 <input type="hidden" name="modal" value="<?php echo (int)$t002_shipper_view->IsModal ?>">
 <table class="table table-striped table-sm ew-view-table">
-<?php if ($t002_shipper->id->Visible) { // id ?>
-	<tr id="r_id">
-		<td class="<?php echo $t002_shipper_view->TableLeftColumnClass ?>"><span id="elh_t002_shipper_id"><?php echo $t002_shipper->id->caption() ?></span></td>
-		<td data-name="id"<?php echo $t002_shipper->id->cellAttributes() ?>>
-<span id="el_t002_shipper_id">
-<span<?php echo $t002_shipper->id->viewAttributes() ?>>
-<?php echo $t002_shipper->id->getViewValue() ?></span>
-</span>
-</td>
-	</tr>
-<?php } ?>
 <?php if ($t002_shipper->Name->Visible) { // Name ?>
 	<tr id="r_Name">
 		<td class="<?php echo $t002_shipper_view->TableLeftColumnClass ?>"><span id="elh_t002_shipper_Name"><?php echo $t002_shipper->Name->caption() ?></span></td>

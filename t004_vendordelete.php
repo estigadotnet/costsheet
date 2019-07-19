@@ -76,9 +76,6 @@ $t004_vendor_delete->showMessage();
 <table class="table ew-table">
 	<thead>
 	<tr class="ew-table-header">
-<?php if ($t004_vendor->id->Visible) { // id ?>
-		<th class="<?php echo $t004_vendor->id->headerCellClass() ?>"><span id="elh_t004_vendor_id" class="t004_vendor_id"><?php echo $t004_vendor->id->caption() ?></span></th>
-<?php } ?>
 <?php if ($t004_vendor->Name->Visible) { // Name ?>
 		<th class="<?php echo $t004_vendor->Name->headerCellClass() ?>"><span id="elh_t004_vendor_Name" class="t004_vendor_Name"><?php echo $t004_vendor->Name->caption() ?></span></th>
 <?php } ?>
@@ -103,14 +100,6 @@ while (!$t004_vendor_delete->Recordset->EOF) {
 	$t004_vendor_delete->renderRow();
 ?>
 	<tr<?php echo $t004_vendor->rowAttributes() ?>>
-<?php if ($t004_vendor->id->Visible) { // id ?>
-		<td<?php echo $t004_vendor->id->cellAttributes() ?>>
-<span id="el<?php echo $t004_vendor_delete->RowCnt ?>_t004_vendor_id" class="t004_vendor_id">
-<span<?php echo $t004_vendor->id->viewAttributes() ?>>
-<?php echo $t004_vendor->id->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
 <?php if ($t004_vendor->Name->Visible) { // Name ?>
 		<td<?php echo $t004_vendor->Name->cellAttributes() ?>>
 <span id="el<?php echo $t004_vendor_delete->RowCnt ?>_t004_vendor_Name" class="t004_vendor_Name">

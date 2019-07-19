@@ -54,11 +54,6 @@ ft003_chargecodeedit.validate = function() {
 	for (var i = startcnt; i <= rowcnt; i++) {
 		var infix = ($k[0]) ? String(i) : "";
 		$fobj.data("rowindex", infix);
-		<?php if ($t003_chargecode_edit->id->Required) { ?>
-			elm = this.getElements("x" + infix + "_id");
-			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
-				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t003_chargecode->id->caption(), $t003_chargecode->id->RequiredErrorMessage)) ?>");
-		<?php } ?>
 		<?php if ($t003_chargecode_edit->Charge_Code->Required) { ?>
 			elm = this.getElements("x" + infix + "_Charge_Code");
 			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
@@ -111,18 +106,6 @@ $t003_chargecode_edit->showMessage();
 <input type="hidden" name="action" id="action" value="update">
 <input type="hidden" name="modal" value="<?php echo (int)$t003_chargecode_edit->IsModal ?>">
 <div class="ew-edit-div"><!-- page* -->
-<?php if ($t003_chargecode->id->Visible) { // id ?>
-	<div id="r_id" class="form-group row">
-		<label id="elh_t003_chargecode_id" class="<?php echo $t003_chargecode_edit->LeftColumnClass ?>"><?php echo $t003_chargecode->id->caption() ?><?php echo ($t003_chargecode->id->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
-		<div class="<?php echo $t003_chargecode_edit->RightColumnClass ?>"><div<?php echo $t003_chargecode->id->cellAttributes() ?>>
-<span id="el_t003_chargecode_id">
-<span<?php echo $t003_chargecode->id->viewAttributes() ?>>
-<input type="text" readonly class="form-control-plaintext" value="<?php echo RemoveHtml($t003_chargecode->id->EditValue) ?>"></span>
-</span>
-<input type="hidden" data-table="t003_chargecode" data-field="x_id" name="x_id" id="x_id" value="<?php echo HtmlEncode($t003_chargecode->id->CurrentValue) ?>">
-<?php echo $t003_chargecode->id->CustomMsg ?></div></div>
-	</div>
-<?php } ?>
 <?php if ($t003_chargecode->Charge_Code->Visible) { // Charge_Code ?>
 	<div id="r_Charge_Code" class="form-group row">
 		<label id="elh_t003_chargecode_Charge_Code" for="x_Charge_Code" class="<?php echo $t003_chargecode_edit->LeftColumnClass ?>"><?php echo $t003_chargecode->Charge_Code->caption() ?><?php echo ($t003_chargecode->Charge_Code->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
@@ -134,6 +117,7 @@ $t003_chargecode_edit->showMessage();
 	</div>
 <?php } ?>
 </div><!-- /page* -->
+	<input type="hidden" data-table="t003_chargecode" data-field="x_id" name="x_id" id="x_id" value="<?php echo HtmlEncode($t003_chargecode->id->CurrentValue) ?>">
 <?php if (!$t003_chargecode_edit->IsModal) { ?>
 <div class="form-group row"><!-- buttons .form-group -->
 	<div class="<?php echo $t003_chargecode_edit->OffsetColumnClass ?>"><!-- buttons offset -->

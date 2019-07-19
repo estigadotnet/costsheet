@@ -19,6 +19,14 @@ class t001_liner_delete extends t001_liner
 	// Page object name
 	public $PageObjName = "t001_liner_delete";
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -583,7 +591,7 @@ class t001_liner_delete extends t001_liner
 			}
 		}
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->Name->setVisibility();
 		$this->hideFieldsForAddEdit();
 
@@ -760,11 +768,6 @@ class t001_liner_delete extends t001_liner
 			$this->Name->ViewValue = $this->Name->CurrentValue;
 			$this->Name->ViewCustomAttributes = "";
 
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
-
 			// Name
 			$this->Name->LinkCustomAttributes = "";
 			$this->Name->HrefValue = "";
@@ -799,6 +802,8 @@ class t001_liner_delete extends t001_liner
 		}
 		$rows = ($rs) ? $rs->getRows() : [];
 		$conn->beginTrans();
+		if ($this->AuditTrailOnDelete)
+			$this->writeAuditTrailDummy($Language->phrase("BatchDeleteBegin")); // Batch delete begin
 
 		// Clone old rows
 		$rsold = $rows;
@@ -847,8 +852,12 @@ class t001_liner_delete extends t001_liner
 		}
 		if ($deleteRows) {
 			$conn->commitTrans(); // Commit the changes
+			if ($this->AuditTrailOnDelete)
+				$this->writeAuditTrailDummy($Language->phrase("BatchDeleteSuccess")); // Batch delete success
 		} else {
 			$conn->rollbackTrans(); // Rollback changes
+			if ($this->AuditTrailOnDelete)
+				$this->writeAuditTrailDummy($Language->phrase("BatchDeleteRollback")); // Batch delete rollback
 		}
 
 		// Call Row Deleted event

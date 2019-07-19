@@ -717,6 +717,12 @@
     <menu id="11">
       <phrase id="menutext" value="Vendor" />
     </menu>
+    <menu id="12">
+      <phrase id="menutext" value="Cost Sheet" />
+    </menu>
+    <menu id="13">
+      <phrase id="menutext" value="Detail" />
+    </menu>
     <menu id="8">
       <phrase id="menutext" value="General" />
     </menu>
@@ -724,10 +730,10 @@
       <phrase id="menutext" value="Users" />
     </menu>
     <menu id="3">
-      <phrase id="menutext" value="Hak Akses" />
+      <phrase id="menutext" value="User Rights" />
     </menu>
     <menu id="4">
-      <phrase id="menutext" value="Hak Akses Detail" />
+      <phrase id="menutext" value="User Rights Detail" />
     </menu>
     <menu id="5">
       <phrase id="menutext" value="Activity Log" />
@@ -848,7 +854,7 @@
       </field>
     </table>
     <table id="t097_userlevels">
-      <phrase id="tblcaption" value="Hak Akses" />
+      <phrase id="tblcaption" value="User Rights" />
       <field id="userlevelid">
         <phrase id="fldcaption" value="userlevelid" />
       </field>
@@ -857,7 +863,7 @@
       </field>
     </table>
     <table id="t098_userlevelpermissions">
-      <phrase id="tblcaption" value="Hak Akses Detail" />
+      <phrase id="tblcaption" value="User Rights Detail" />
       <field id="userlevelid">
         <phrase id="fldcaption" value="userlevelid" />
       </field>
@@ -899,6 +905,86 @@
       </field>
       <field id="newvalue">
         <phrase id="fldcaption" value="newvalue" />
+      </field>
+    </table>
+    <table id="t101_costsheethead">
+      <phrase id="tblcaption" value="Cost Sheet" />
+      <phrase id="tblpagecaption1" value="Page 1" />
+      <phrase id="tblpagecaption2" value="Page 2" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="liner_id">
+        <phrase id="fldcaption" value="LINER" />
+      </field>
+      <field id="no_bl">
+        <phrase id="fldcaption" value="BL MBL / HBL" />
+      </field>
+      <field id="shipper_id">
+        <phrase id="fldcaption" value="SHIPPER" />
+      </field>
+      <field id="top_1">
+        <phrase id="fldcaption" value="TERM. OF PAYMENT" />
+        <phrase id="fldtagvalue1" value="PREPAID" />
+        <phrase id="fldtagcaption1" value="PREPAID" />
+        <phrase id="fldtagvalue2" value="POSTPAID" />
+        <phrase id="fldtagcaption2" value="POSTPAID" />
+      </field>
+      <field id="vol">
+        <phrase id="fldcaption" value="VOL." />
+      </field>
+      <field id="cont">
+        <phrase id="fldcaption" value="CONT. TYPE" />
+        <phrase id="fldtagvalue1" value="20" />
+        <phrase id="fldtagcaption1" value="20" />
+        <phrase id="fldtagvalue2" value="40" />
+        <phrase id="fldtagcaption2" value="40" />
+      </field>
+      <field id="no_ref">
+        <phrase id="fldcaption" value="REF. No." />
+      </field>
+      <field id="vsl_voy">
+        <phrase id="fldcaption" value="VSL / VOY" />
+      </field>
+      <field id="pol_pod">
+        <phrase id="fldcaption" value="POL / POD" />
+      </field>
+      <field id="top_2">
+        <phrase id="fldcaption" value="TERM. OF PAYMENT" />
+        <phrase id="fldtagvalue1" value="PREPAID" />
+        <phrase id="fldtagcaption1" value="PREPAID" />
+        <phrase id="fldtagvalue2" value="POSTPAID" />
+        <phrase id="fldtagcaption2" value="POSTPAID" />
+      </field>
+      <field id="no_cont">
+        <phrase id="fldcaption" value="CONT. No." />
+      </field>
+    </table>
+    <table id="t102_costsheetdetail">
+      <phrase id="tblcaption" value="Detail" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="costsheethead_id">
+        <phrase id="fldcaption" value="costsheethead id" />
+      </field>
+      <field id="chargecode_id">
+        <phrase id="fldcaption" value="CHARGE CODE" />
+      </field>
+      <field id="vendor_id">
+        <phrase id="fldcaption" value="VENDOR" />
+      </field>
+      <field id="ptl_amount">
+        <phrase id="fldcaption" value="PTL. AMOUNT" />
+      </field>
+      <field id="ptl_total">
+        <phrase id="fldcaption" value="PTL. TOTAL" />
+      </field>
+      <field id="rfc_amount">
+        <phrase id="fldcaption" value="RFC. AMOUNT" />
+      </field>
+      <field id="rfc_total">
+        <phrase id="fldcaption" value="RFC. TOTAL" />
       </field>
     </table>
   </project>

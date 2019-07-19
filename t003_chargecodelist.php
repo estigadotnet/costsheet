@@ -59,6 +59,29 @@ var ft003_chargecodelistsrch = currentSearchForm = new ew.Form("ft003_chargecode
 // Filters
 ft003_chargecodelistsrch.filterList = <?php echo $t003_chargecode_list->getFilterList() ?>;
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
+<style type="text/css">
+.ew-table-preview-row { /* main table preview row color */
+	background-color: #FFFFFF; /* preview row color */
+}
+.ew-table-preview-row .ew-grid {
+	display: table;
+}
+</style>
+<div id="ew-preview" class="d-none"><!-- preview -->
+	<div class="ew-nav-tabs"><!-- .ew-nav-tabs -->
+		<ul class="nav nav-tabs"></ul>
+		<div class="tab-content"><!-- .tab-content -->
+			<div class="tab-pane fade active show"></div>
+		</div><!-- /.tab-content -->
+	</div><!-- /.ew-nav-tabs -->
+</div><!-- /preview -->
+<script src="phpjs/ewpreview.js"></script>
+<script>
+ew.PREVIEW_PLACEMENT = ew.CSS_FLIP ? "right" : "left";
+ew.PREVIEW_SINGLE_ROW = false;
+ew.PREVIEW_OVERLAY = false;
+</script>
 <script>
 
 // Write your client script here, no need to add script tags.
@@ -140,15 +163,6 @@ $t003_chargecode_list->renderListOptions();
 // Render list options (header, left)
 $t003_chargecode_list->ListOptions->render("header", "left");
 ?>
-<?php if ($t003_chargecode->id->Visible) { // id ?>
-	<?php if ($t003_chargecode->sortUrl($t003_chargecode->id) == "") { ?>
-		<th data-name="id" class="<?php echo $t003_chargecode->id->headerCellClass() ?>"><div id="elh_t003_chargecode_id" class="t003_chargecode_id"><div class="ew-table-header-caption"><?php echo $t003_chargecode->id->caption() ?></div></div></th>
-	<?php } else { ?>
-		<th data-name="id" class="<?php echo $t003_chargecode->id->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t003_chargecode->SortUrl($t003_chargecode->id) ?>',2);"><div id="elh_t003_chargecode_id" class="t003_chargecode_id">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t003_chargecode->id->caption() ?></span><span class="ew-table-header-sort"><?php if ($t003_chargecode->id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t003_chargecode->id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
-		</div></div></th>
-	<?php } ?>
-<?php } ?>
 <?php if ($t003_chargecode->Charge_Code->Visible) { // Charge_Code ?>
 	<?php if ($t003_chargecode->sortUrl($t003_chargecode->Charge_Code) == "") { ?>
 		<th data-name="Charge_Code" class="<?php echo $t003_chargecode->Charge_Code->headerCellClass() ?>"><div id="elh_t003_chargecode_Charge_Code" class="t003_chargecode_Charge_Code"><div class="ew-table-header-caption"><?php echo $t003_chargecode->Charge_Code->caption() ?></div></div></th>
@@ -223,14 +237,6 @@ while ($t003_chargecode_list->RecCnt < $t003_chargecode_list->StopRec) {
 // Render list options (body, left)
 $t003_chargecode_list->ListOptions->render("body", "left", $t003_chargecode_list->RowCnt);
 ?>
-	<?php if ($t003_chargecode->id->Visible) { // id ?>
-		<td data-name="id"<?php echo $t003_chargecode->id->cellAttributes() ?>>
-<span id="el<?php echo $t003_chargecode_list->RowCnt ?>_t003_chargecode_id" class="t003_chargecode_id">
-<span<?php echo $t003_chargecode->id->viewAttributes() ?>>
-<?php echo $t003_chargecode->id->getViewValue() ?></span>
-</span>
-</td>
-	<?php } ?>
 	<?php if ($t003_chargecode->Charge_Code->Visible) { // Charge_Code ?>
 		<td data-name="Charge_Code"<?php echo $t003_chargecode->Charge_Code->cellAttributes() ?>>
 <span id="el<?php echo $t003_chargecode_list->RowCnt ?>_t003_chargecode_Charge_Code" class="t003_chargecode_Charge_Code">
@@ -355,6 +361,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t003_chargecode->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t003_chargecode", "100%", "");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

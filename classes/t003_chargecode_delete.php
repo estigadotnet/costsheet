@@ -19,6 +19,14 @@ class t003_chargecode_delete extends t003_chargecode
 	// Page object name
 	public $PageObjName = "t003_chargecode_delete";
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -583,7 +591,7 @@ class t003_chargecode_delete extends t003_chargecode
 			}
 		}
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->Charge_Code->setVisibility();
 		$this->hideFieldsForAddEdit();
 
@@ -760,11 +768,6 @@ class t003_chargecode_delete extends t003_chargecode
 			$this->Charge_Code->ViewValue = $this->Charge_Code->CurrentValue;
 			$this->Charge_Code->ViewCustomAttributes = "";
 
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
-
 			// Charge_Code
 			$this->Charge_Code->LinkCustomAttributes = "";
 			$this->Charge_Code->HrefValue = "";
@@ -799,6 +802,8 @@ class t003_chargecode_delete extends t003_chargecode
 		}
 		$rows = ($rs) ? $rs->getRows() : [];
 		$conn->beginTrans();
+		if ($this->AuditTrailOnDelete)
+			$this->writeAuditTrailDummy($Language->phrase("BatchDeleteBegin")); // Batch delete begin
 
 		// Clone old rows
 		$rsold = $rows;
@@ -847,8 +852,12 @@ class t003_chargecode_delete extends t003_chargecode
 		}
 		if ($deleteRows) {
 			$conn->commitTrans(); // Commit the changes
+			if ($this->AuditTrailOnDelete)
+				$this->writeAuditTrailDummy($Language->phrase("BatchDeleteSuccess")); // Batch delete success
 		} else {
 			$conn->rollbackTrans(); // Rollback changes
+			if ($this->AuditTrailOnDelete)
+				$this->writeAuditTrailDummy($Language->phrase("BatchDeleteRollback")); // Batch delete rollback
 		}
 
 		// Call Row Deleted event

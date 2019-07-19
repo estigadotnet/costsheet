@@ -76,9 +76,6 @@ $t002_shipper_delete->showMessage();
 <table class="table ew-table">
 	<thead>
 	<tr class="ew-table-header">
-<?php if ($t002_shipper->id->Visible) { // id ?>
-		<th class="<?php echo $t002_shipper->id->headerCellClass() ?>"><span id="elh_t002_shipper_id" class="t002_shipper_id"><?php echo $t002_shipper->id->caption() ?></span></th>
-<?php } ?>
 <?php if ($t002_shipper->Name->Visible) { // Name ?>
 		<th class="<?php echo $t002_shipper->Name->headerCellClass() ?>"><span id="elh_t002_shipper_Name" class="t002_shipper_Name"><?php echo $t002_shipper->Name->caption() ?></span></th>
 <?php } ?>
@@ -103,14 +100,6 @@ while (!$t002_shipper_delete->Recordset->EOF) {
 	$t002_shipper_delete->renderRow();
 ?>
 	<tr<?php echo $t002_shipper->rowAttributes() ?>>
-<?php if ($t002_shipper->id->Visible) { // id ?>
-		<td<?php echo $t002_shipper->id->cellAttributes() ?>>
-<span id="el<?php echo $t002_shipper_delete->RowCnt ?>_t002_shipper_id" class="t002_shipper_id">
-<span<?php echo $t002_shipper->id->viewAttributes() ?>>
-<?php echo $t002_shipper->id->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
 <?php if ($t002_shipper->Name->Visible) { // Name ?>
 		<td<?php echo $t002_shipper->Name->cellAttributes() ?>>
 <span id="el<?php echo $t002_shipper_delete->RowCnt ?>_t002_shipper_Name" class="t002_shipper_Name">

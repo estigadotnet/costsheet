@@ -77,17 +77,6 @@ $t004_vendor_view->showMessage();
 <input type="hidden" name="t" value="t004_vendor">
 <input type="hidden" name="modal" value="<?php echo (int)$t004_vendor_view->IsModal ?>">
 <table class="table table-striped table-sm ew-view-table">
-<?php if ($t004_vendor->id->Visible) { // id ?>
-	<tr id="r_id">
-		<td class="<?php echo $t004_vendor_view->TableLeftColumnClass ?>"><span id="elh_t004_vendor_id"><?php echo $t004_vendor->id->caption() ?></span></td>
-		<td data-name="id"<?php echo $t004_vendor->id->cellAttributes() ?>>
-<span id="el_t004_vendor_id">
-<span<?php echo $t004_vendor->id->viewAttributes() ?>>
-<?php echo $t004_vendor->id->getViewValue() ?></span>
-</span>
-</td>
-	</tr>
-<?php } ?>
 <?php if ($t004_vendor->Name->Visible) { // Name ?>
 	<tr id="r_Name">
 		<td class="<?php echo $t004_vendor_view->TableLeftColumnClass ?>"><span id="elh_t004_vendor_Name"><?php echo $t004_vendor->Name->caption() ?></span></td>

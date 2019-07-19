@@ -60,6 +60,14 @@ class t004_vendor_list extends t004_vendor
 	public $MultiDeleteUrl;
 	public $MultiUpdateUrl;
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -712,7 +720,7 @@ class t004_vendor_list extends t004_vendor
 
 		// Set up list options
 		$this->setupListOptions();
-		$this->id->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->Name->setVisibility();
 		$this->hideFieldsForAddEdit();
 
@@ -899,6 +907,13 @@ class t004_vendor_list extends t004_vendor
 					$this->setWarningMessage($Language->phrase("EnterSearchCriteria"));
 				else
 					$this->setWarningMessage($Language->phrase("NoRecord"));
+			}
+
+			// Audit trail on search
+			if ($this->AuditTrailOnSearch && $this->Command == "search" && !$this->RestoreSearch) {
+				$searchParm = ServerVar("QUERY_STRING");
+				$searchSql = $this->getSessionWhere();
+				$this->writeAuditTrailOnSearch($searchParm, $searchSql);
 			}
 		}
 
@@ -1211,7 +1226,6 @@ class t004_vendor_list extends t004_vendor
 		if (Get("order") !== NULL) {
 			$this->CurrentOrder = Get("order");
 			$this->CurrentOrderType = Get("ordertype", "");
-			$this->updateSort($this->id, $ctrl); // id
 			$this->updateSort($this->Name, $ctrl); // Name
 			$this->setStartRecordNumber(1); // Reset start position
 		}
@@ -1248,7 +1262,6 @@ class t004_vendor_list extends t004_vendor
 			if ($this->Command == "resetsort") {
 				$orderBy = "";
 				$this->setSessionOrderBy($orderBy);
-				$this->id->setSort("");
 				$this->Name->setSort("");
 			}
 
@@ -1309,6 +1322,14 @@ class t004_vendor_list extends t004_vendor
 		$item->ShowInDropDown = FALSE;
 		$item->ShowInButtonGroup = FALSE;
 
+		// "sequence"
+		$item = &$this->ListOptions->add("sequence");
+		$item->CssClass = "text-nowrap";
+		$item->Visible = TRUE;
+		$item->OnLeft = TRUE; // Always on left
+		$item->ShowInDropDown = FALSE;
+		$item->ShowInButtonGroup = FALSE;
+
 		// Drop down button for ListOptions
 		$this->ListOptions->UseDropDownButton = FALSE;
 		$this->ListOptions->DropDownButtonPhrase = $Language->phrase("ButtonListOptions");
@@ -1333,6 +1354,10 @@ class t004_vendor_list extends t004_vendor
 
 		// Call ListOptions_Rendering event
 		$this->ListOptions_Rendering();
+
+		// "sequence"
+		$opt = &$this->ListOptions->Items["sequence"];
+		$opt->Body = FormatSequenceNumber($this->RecCnt);
 
 		// "view"
 		$opt = &$this->ListOptions->Items["view"];
@@ -1601,6 +1626,9 @@ class t004_vendor_list extends t004_vendor
 	protected function setupListOptionsExt()
 	{
 		global $Security, $Language;
+
+		// Hide detail items for dropdown if necessary
+		$this->ListOptions->hideDetailItemsForDropDown();
 	}
 	protected function renderListOptionsExt()
 	{
@@ -1780,11 +1808,6 @@ class t004_vendor_list extends t004_vendor
 			// Name
 			$this->Name->ViewValue = $this->Name->CurrentValue;
 			$this->Name->ViewCustomAttributes = "";
-
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
 
 			// Name
 			$this->Name->LinkCustomAttributes = "";

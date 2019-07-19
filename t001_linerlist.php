@@ -59,6 +59,29 @@ var ft001_linerlistsrch = currentSearchForm = new ew.Form("ft001_linerlistsrch")
 // Filters
 ft001_linerlistsrch.filterList = <?php echo $t001_liner_list->getFilterList() ?>;
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
+<style type="text/css">
+.ew-table-preview-row { /* main table preview row color */
+	background-color: #FFFFFF; /* preview row color */
+}
+.ew-table-preview-row .ew-grid {
+	display: table;
+}
+</style>
+<div id="ew-preview" class="d-none"><!-- preview -->
+	<div class="ew-nav-tabs"><!-- .ew-nav-tabs -->
+		<ul class="nav nav-tabs"></ul>
+		<div class="tab-content"><!-- .tab-content -->
+			<div class="tab-pane fade active show"></div>
+		</div><!-- /.tab-content -->
+	</div><!-- /.ew-nav-tabs -->
+</div><!-- /preview -->
+<script src="phpjs/ewpreview.js"></script>
+<script>
+ew.PREVIEW_PLACEMENT = ew.CSS_FLIP ? "right" : "left";
+ew.PREVIEW_SINGLE_ROW = false;
+ew.PREVIEW_OVERLAY = false;
+</script>
 <script>
 
 // Write your client script here, no need to add script tags.
@@ -140,15 +163,6 @@ $t001_liner_list->renderListOptions();
 // Render list options (header, left)
 $t001_liner_list->ListOptions->render("header", "left");
 ?>
-<?php if ($t001_liner->id->Visible) { // id ?>
-	<?php if ($t001_liner->sortUrl($t001_liner->id) == "") { ?>
-		<th data-name="id" class="<?php echo $t001_liner->id->headerCellClass() ?>"><div id="elh_t001_liner_id" class="t001_liner_id"><div class="ew-table-header-caption"><?php echo $t001_liner->id->caption() ?></div></div></th>
-	<?php } else { ?>
-		<th data-name="id" class="<?php echo $t001_liner->id->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t001_liner->SortUrl($t001_liner->id) ?>',2);"><div id="elh_t001_liner_id" class="t001_liner_id">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t001_liner->id->caption() ?></span><span class="ew-table-header-sort"><?php if ($t001_liner->id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t001_liner->id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
-		</div></div></th>
-	<?php } ?>
-<?php } ?>
 <?php if ($t001_liner->Name->Visible) { // Name ?>
 	<?php if ($t001_liner->sortUrl($t001_liner->Name) == "") { ?>
 		<th data-name="Name" class="<?php echo $t001_liner->Name->headerCellClass() ?>"><div id="elh_t001_liner_Name" class="t001_liner_Name"><div class="ew-table-header-caption"><?php echo $t001_liner->Name->caption() ?></div></div></th>
@@ -223,14 +237,6 @@ while ($t001_liner_list->RecCnt < $t001_liner_list->StopRec) {
 // Render list options (body, left)
 $t001_liner_list->ListOptions->render("body", "left", $t001_liner_list->RowCnt);
 ?>
-	<?php if ($t001_liner->id->Visible) { // id ?>
-		<td data-name="id"<?php echo $t001_liner->id->cellAttributes() ?>>
-<span id="el<?php echo $t001_liner_list->RowCnt ?>_t001_liner_id" class="t001_liner_id">
-<span<?php echo $t001_liner->id->viewAttributes() ?>>
-<?php echo $t001_liner->id->getViewValue() ?></span>
-</span>
-</td>
-	<?php } ?>
 	<?php if ($t001_liner->Name->Visible) { // Name ?>
 		<td data-name="Name"<?php echo $t001_liner->Name->cellAttributes() ?>>
 <span id="el<?php echo $t001_liner_list->RowCnt ?>_t001_liner_Name" class="t001_liner_Name">
@@ -355,6 +361,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t001_liner->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t001_liner", "100%", "");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

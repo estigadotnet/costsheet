@@ -19,6 +19,14 @@ class t097_userlevels_delete extends t097_userlevels
 	// Page object name
 	public $PageObjName = "t097_userlevels_delete";
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -801,6 +809,8 @@ class t097_userlevels_delete extends t097_userlevels
 		}
 		$rows = ($rs) ? $rs->getRows() : [];
 		$conn->beginTrans();
+		if ($this->AuditTrailOnDelete)
+			$this->writeAuditTrailDummy($Language->phrase("BatchDeleteBegin")); // Batch delete begin
 
 		// Clone old rows
 		$rsold = $rows;
@@ -853,8 +863,12 @@ class t097_userlevels_delete extends t097_userlevels
 		}
 		if ($deleteRows) {
 			$conn->commitTrans(); // Commit the changes
+			if ($this->AuditTrailOnDelete)
+				$this->writeAuditTrailDummy($Language->phrase("BatchDeleteSuccess")); // Batch delete success
 		} else {
 			$conn->rollbackTrans(); // Rollback changes
+			if ($this->AuditTrailOnDelete)
+				$this->writeAuditTrailDummy($Language->phrase("BatchDeleteRollback")); // Batch delete rollback
 		}
 
 		// Call Row Deleted event

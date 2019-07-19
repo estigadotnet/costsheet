@@ -19,6 +19,14 @@ class t098_userlevelpermissions_add extends t098_userlevelpermissions
 	// Page object name
 	public $PageObjName = "t098_userlevelpermissions_add";
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";

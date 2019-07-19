@@ -76,9 +76,6 @@ $t003_chargecode_delete->showMessage();
 <table class="table ew-table">
 	<thead>
 	<tr class="ew-table-header">
-<?php if ($t003_chargecode->id->Visible) { // id ?>
-		<th class="<?php echo $t003_chargecode->id->headerCellClass() ?>"><span id="elh_t003_chargecode_id" class="t003_chargecode_id"><?php echo $t003_chargecode->id->caption() ?></span></th>
-<?php } ?>
 <?php if ($t003_chargecode->Charge_Code->Visible) { // Charge_Code ?>
 		<th class="<?php echo $t003_chargecode->Charge_Code->headerCellClass() ?>"><span id="elh_t003_chargecode_Charge_Code" class="t003_chargecode_Charge_Code"><?php echo $t003_chargecode->Charge_Code->caption() ?></span></th>
 <?php } ?>
@@ -103,14 +100,6 @@ while (!$t003_chargecode_delete->Recordset->EOF) {
 	$t003_chargecode_delete->renderRow();
 ?>
 	<tr<?php echo $t003_chargecode->rowAttributes() ?>>
-<?php if ($t003_chargecode->id->Visible) { // id ?>
-		<td<?php echo $t003_chargecode->id->cellAttributes() ?>>
-<span id="el<?php echo $t003_chargecode_delete->RowCnt ?>_t003_chargecode_id" class="t003_chargecode_id">
-<span<?php echo $t003_chargecode->id->viewAttributes() ?>>
-<?php echo $t003_chargecode->id->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
 <?php if ($t003_chargecode->Charge_Code->Visible) { // Charge_Code ?>
 		<td<?php echo $t003_chargecode->Charge_Code->cellAttributes() ?>>
 <span id="el<?php echo $t003_chargecode_delete->RowCnt ?>_t003_chargecode_Charge_Code" class="t003_chargecode_Charge_Code">

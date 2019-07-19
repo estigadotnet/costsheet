@@ -60,6 +60,14 @@ class t003_chargecode_list extends t003_chargecode
 	public $MultiDeleteUrl;
 	public $MultiUpdateUrl;
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -712,7 +720,7 @@ class t003_chargecode_list extends t003_chargecode
 
 		// Set up list options
 		$this->setupListOptions();
-		$this->id->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->Charge_Code->setVisibility();
 		$this->hideFieldsForAddEdit();
 
@@ -899,6 +907,13 @@ class t003_chargecode_list extends t003_chargecode
 					$this->setWarningMessage($Language->phrase("EnterSearchCriteria"));
 				else
 					$this->setWarningMessage($Language->phrase("NoRecord"));
+			}
+
+			// Audit trail on search
+			if ($this->AuditTrailOnSearch && $this->Command == "search" && !$this->RestoreSearch) {
+				$searchParm = ServerVar("QUERY_STRING");
+				$searchSql = $this->getSessionWhere();
+				$this->writeAuditTrailOnSearch($searchParm, $searchSql);
 			}
 		}
 
@@ -1211,7 +1226,6 @@ class t003_chargecode_list extends t003_chargecode
 		if (Get("order") !== NULL) {
 			$this->CurrentOrder = Get("order");
 			$this->CurrentOrderType = Get("ordertype", "");
-			$this->updateSort($this->id, $ctrl); // id
 			$this->updateSort($this->Charge_Code, $ctrl); // Charge_Code
 			$this->setStartRecordNumber(1); // Reset start position
 		}
@@ -1248,7 +1262,6 @@ class t003_chargecode_list extends t003_chargecode
 			if ($this->Command == "resetsort") {
 				$orderBy = "";
 				$this->setSessionOrderBy($orderBy);
-				$this->id->setSort("");
 				$this->Charge_Code->setSort("");
 			}
 
@@ -1309,6 +1322,14 @@ class t003_chargecode_list extends t003_chargecode
 		$item->ShowInDropDown = FALSE;
 		$item->ShowInButtonGroup = FALSE;
 
+		// "sequence"
+		$item = &$this->ListOptions->add("sequence");
+		$item->CssClass = "text-nowrap";
+		$item->Visible = TRUE;
+		$item->OnLeft = TRUE; // Always on left
+		$item->ShowInDropDown = FALSE;
+		$item->ShowInButtonGroup = FALSE;
+
 		// Drop down button for ListOptions
 		$this->ListOptions->UseDropDownButton = FALSE;
 		$this->ListOptions->DropDownButtonPhrase = $Language->phrase("ButtonListOptions");
@@ -1333,6 +1354,10 @@ class t003_chargecode_list extends t003_chargecode
 
 		// Call ListOptions_Rendering event
 		$this->ListOptions_Rendering();
+
+		// "sequence"
+		$opt = &$this->ListOptions->Items["sequence"];
+		$opt->Body = FormatSequenceNumber($this->RecCnt);
 
 		// "view"
 		$opt = &$this->ListOptions->Items["view"];
@@ -1601,6 +1626,9 @@ class t003_chargecode_list extends t003_chargecode
 	protected function setupListOptionsExt()
 	{
 		global $Security, $Language;
+
+		// Hide detail items for dropdown if necessary
+		$this->ListOptions->hideDetailItemsForDropDown();
 	}
 	protected function renderListOptionsExt()
 	{
@@ -1780,11 +1808,6 @@ class t003_chargecode_list extends t003_chargecode
 			// Charge_Code
 			$this->Charge_Code->ViewValue = $this->Charge_Code->CurrentValue;
 			$this->Charge_Code->ViewCustomAttributes = "";
-
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
 
 			// Charge_Code
 			$this->Charge_Code->LinkCustomAttributes = "";

@@ -59,6 +59,29 @@ var ft004_vendorlistsrch = currentSearchForm = new ew.Form("ft004_vendorlistsrch
 // Filters
 ft004_vendorlistsrch.filterList = <?php echo $t004_vendor_list->getFilterList() ?>;
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
+<style type="text/css">
+.ew-table-preview-row { /* main table preview row color */
+	background-color: #FFFFFF; /* preview row color */
+}
+.ew-table-preview-row .ew-grid {
+	display: table;
+}
+</style>
+<div id="ew-preview" class="d-none"><!-- preview -->
+	<div class="ew-nav-tabs"><!-- .ew-nav-tabs -->
+		<ul class="nav nav-tabs"></ul>
+		<div class="tab-content"><!-- .tab-content -->
+			<div class="tab-pane fade active show"></div>
+		</div><!-- /.tab-content -->
+	</div><!-- /.ew-nav-tabs -->
+</div><!-- /preview -->
+<script src="phpjs/ewpreview.js"></script>
+<script>
+ew.PREVIEW_PLACEMENT = ew.CSS_FLIP ? "right" : "left";
+ew.PREVIEW_SINGLE_ROW = false;
+ew.PREVIEW_OVERLAY = false;
+</script>
 <script>
 
 // Write your client script here, no need to add script tags.
@@ -140,15 +163,6 @@ $t004_vendor_list->renderListOptions();
 // Render list options (header, left)
 $t004_vendor_list->ListOptions->render("header", "left");
 ?>
-<?php if ($t004_vendor->id->Visible) { // id ?>
-	<?php if ($t004_vendor->sortUrl($t004_vendor->id) == "") { ?>
-		<th data-name="id" class="<?php echo $t004_vendor->id->headerCellClass() ?>"><div id="elh_t004_vendor_id" class="t004_vendor_id"><div class="ew-table-header-caption"><?php echo $t004_vendor->id->caption() ?></div></div></th>
-	<?php } else { ?>
-		<th data-name="id" class="<?php echo $t004_vendor->id->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t004_vendor->SortUrl($t004_vendor->id) ?>',2);"><div id="elh_t004_vendor_id" class="t004_vendor_id">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t004_vendor->id->caption() ?></span><span class="ew-table-header-sort"><?php if ($t004_vendor->id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t004_vendor->id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
-		</div></div></th>
-	<?php } ?>
-<?php } ?>
 <?php if ($t004_vendor->Name->Visible) { // Name ?>
 	<?php if ($t004_vendor->sortUrl($t004_vendor->Name) == "") { ?>
 		<th data-name="Name" class="<?php echo $t004_vendor->Name->headerCellClass() ?>"><div id="elh_t004_vendor_Name" class="t004_vendor_Name"><div class="ew-table-header-caption"><?php echo $t004_vendor->Name->caption() ?></div></div></th>
@@ -223,14 +237,6 @@ while ($t004_vendor_list->RecCnt < $t004_vendor_list->StopRec) {
 // Render list options (body, left)
 $t004_vendor_list->ListOptions->render("body", "left", $t004_vendor_list->RowCnt);
 ?>
-	<?php if ($t004_vendor->id->Visible) { // id ?>
-		<td data-name="id"<?php echo $t004_vendor->id->cellAttributes() ?>>
-<span id="el<?php echo $t004_vendor_list->RowCnt ?>_t004_vendor_id" class="t004_vendor_id">
-<span<?php echo $t004_vendor->id->viewAttributes() ?>>
-<?php echo $t004_vendor->id->getViewValue() ?></span>
-</span>
-</td>
-	<?php } ?>
 	<?php if ($t004_vendor->Name->Visible) { // Name ?>
 		<td data-name="Name"<?php echo $t004_vendor->Name->cellAttributes() ?>>
 <span id="el<?php echo $t004_vendor_list->RowCnt ?>_t004_vendor_Name" class="t004_vendor_Name">
@@ -355,6 +361,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t004_vendor->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t004_vendor", "100%", "");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

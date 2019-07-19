@@ -52,6 +52,14 @@ class t096_employees_view extends t096_employees
 	public $MultiDeleteUrl;
 	public $MultiUpdateUrl;
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -908,6 +916,8 @@ class t096_employees_view extends t096_employees
 		$this->Row_Selected($row);
 		if (!$rs || $rs->EOF)
 			return;
+		if ($this->AuditTrailOnView)
+			$this->writeAuditTrailOnView($row);
 		$this->EmployeeID->setDbValue($row['EmployeeID']);
 		$this->LastName->setDbValue($row['LastName']);
 		$this->FirstName->setDbValue($row['FirstName']);

@@ -52,6 +52,14 @@ class t003_chargecode_view extends t003_chargecode
 	public $MultiDeleteUrl;
 	public $MultiUpdateUrl;
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -667,7 +675,7 @@ class t003_chargecode_view extends t003_chargecode
 			}
 		}
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->Charge_Code->setVisibility();
 		$this->hideFieldsForAddEdit();
 
@@ -885,6 +893,8 @@ class t003_chargecode_view extends t003_chargecode
 		$this->Row_Selected($row);
 		if (!$rs || $rs->EOF)
 			return;
+		if ($this->AuditTrailOnView)
+			$this->writeAuditTrailOnView($row);
 		$this->id->setDbValue($row['id']);
 		$this->Charge_Code->setDbValue($row['Charge_Code']);
 	}
@@ -927,11 +937,6 @@ class t003_chargecode_view extends t003_chargecode
 			// Charge_Code
 			$this->Charge_Code->ViewValue = $this->Charge_Code->CurrentValue;
 			$this->Charge_Code->ViewCustomAttributes = "";
-
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
 
 			// Charge_Code
 			$this->Charge_Code->LinkCustomAttributes = "";

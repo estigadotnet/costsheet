@@ -52,6 +52,14 @@ class t004_vendor_view extends t004_vendor
 	public $MultiDeleteUrl;
 	public $MultiUpdateUrl;
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -667,7 +675,7 @@ class t004_vendor_view extends t004_vendor
 			}
 		}
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->Name->setVisibility();
 		$this->hideFieldsForAddEdit();
 
@@ -885,6 +893,8 @@ class t004_vendor_view extends t004_vendor
 		$this->Row_Selected($row);
 		if (!$rs || $rs->EOF)
 			return;
+		if ($this->AuditTrailOnView)
+			$this->writeAuditTrailOnView($row);
 		$this->id->setDbValue($row['id']);
 		$this->Name->setDbValue($row['Name']);
 	}
@@ -927,11 +937,6 @@ class t004_vendor_view extends t004_vendor
 			// Name
 			$this->Name->ViewValue = $this->Name->CurrentValue;
 			$this->Name->ViewCustomAttributes = "";
-
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
 
 			// Name
 			$this->Name->LinkCustomAttributes = "";

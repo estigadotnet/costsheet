@@ -77,17 +77,6 @@ $t003_chargecode_view->showMessage();
 <input type="hidden" name="t" value="t003_chargecode">
 <input type="hidden" name="modal" value="<?php echo (int)$t003_chargecode_view->IsModal ?>">
 <table class="table table-striped table-sm ew-view-table">
-<?php if ($t003_chargecode->id->Visible) { // id ?>
-	<tr id="r_id">
-		<td class="<?php echo $t003_chargecode_view->TableLeftColumnClass ?>"><span id="elh_t003_chargecode_id"><?php echo $t003_chargecode->id->caption() ?></span></td>
-		<td data-name="id"<?php echo $t003_chargecode->id->cellAttributes() ?>>
-<span id="el_t003_chargecode_id">
-<span<?php echo $t003_chargecode->id->viewAttributes() ?>>
-<?php echo $t003_chargecode->id->getViewValue() ?></span>
-</span>
-</td>
-	</tr>
-<?php } ?>
 <?php if ($t003_chargecode->Charge_Code->Visible) { // Charge_Code ?>
 	<tr id="r_Charge_Code">
 		<td class="<?php echo $t003_chargecode_view->TableLeftColumnClass ?>"><span id="elh_t003_chargecode_Charge_Code"><?php echo $t003_chargecode->Charge_Code->caption() ?></span></td>

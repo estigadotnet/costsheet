@@ -59,6 +59,29 @@ var ft002_shipperlistsrch = currentSearchForm = new ew.Form("ft002_shipperlistsr
 // Filters
 ft002_shipperlistsrch.filterList = <?php echo $t002_shipper_list->getFilterList() ?>;
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
+<style type="text/css">
+.ew-table-preview-row { /* main table preview row color */
+	background-color: #FFFFFF; /* preview row color */
+}
+.ew-table-preview-row .ew-grid {
+	display: table;
+}
+</style>
+<div id="ew-preview" class="d-none"><!-- preview -->
+	<div class="ew-nav-tabs"><!-- .ew-nav-tabs -->
+		<ul class="nav nav-tabs"></ul>
+		<div class="tab-content"><!-- .tab-content -->
+			<div class="tab-pane fade active show"></div>
+		</div><!-- /.tab-content -->
+	</div><!-- /.ew-nav-tabs -->
+</div><!-- /preview -->
+<script src="phpjs/ewpreview.js"></script>
+<script>
+ew.PREVIEW_PLACEMENT = ew.CSS_FLIP ? "right" : "left";
+ew.PREVIEW_SINGLE_ROW = false;
+ew.PREVIEW_OVERLAY = false;
+</script>
 <script>
 
 // Write your client script here, no need to add script tags.
@@ -140,15 +163,6 @@ $t002_shipper_list->renderListOptions();
 // Render list options (header, left)
 $t002_shipper_list->ListOptions->render("header", "left");
 ?>
-<?php if ($t002_shipper->id->Visible) { // id ?>
-	<?php if ($t002_shipper->sortUrl($t002_shipper->id) == "") { ?>
-		<th data-name="id" class="<?php echo $t002_shipper->id->headerCellClass() ?>"><div id="elh_t002_shipper_id" class="t002_shipper_id"><div class="ew-table-header-caption"><?php echo $t002_shipper->id->caption() ?></div></div></th>
-	<?php } else { ?>
-		<th data-name="id" class="<?php echo $t002_shipper->id->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t002_shipper->SortUrl($t002_shipper->id) ?>',2);"><div id="elh_t002_shipper_id" class="t002_shipper_id">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t002_shipper->id->caption() ?></span><span class="ew-table-header-sort"><?php if ($t002_shipper->id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t002_shipper->id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
-		</div></div></th>
-	<?php } ?>
-<?php } ?>
 <?php if ($t002_shipper->Name->Visible) { // Name ?>
 	<?php if ($t002_shipper->sortUrl($t002_shipper->Name) == "") { ?>
 		<th data-name="Name" class="<?php echo $t002_shipper->Name->headerCellClass() ?>"><div id="elh_t002_shipper_Name" class="t002_shipper_Name"><div class="ew-table-header-caption"><?php echo $t002_shipper->Name->caption() ?></div></div></th>
@@ -223,14 +237,6 @@ while ($t002_shipper_list->RecCnt < $t002_shipper_list->StopRec) {
 // Render list options (body, left)
 $t002_shipper_list->ListOptions->render("body", "left", $t002_shipper_list->RowCnt);
 ?>
-	<?php if ($t002_shipper->id->Visible) { // id ?>
-		<td data-name="id"<?php echo $t002_shipper->id->cellAttributes() ?>>
-<span id="el<?php echo $t002_shipper_list->RowCnt ?>_t002_shipper_id" class="t002_shipper_id">
-<span<?php echo $t002_shipper->id->viewAttributes() ?>>
-<?php echo $t002_shipper->id->getViewValue() ?></span>
-</span>
-</td>
-	<?php } ?>
 	<?php if ($t002_shipper->Name->Visible) { // Name ?>
 		<td data-name="Name"<?php echo $t002_shipper->Name->cellAttributes() ?>>
 <span id="el<?php echo $t002_shipper_list->RowCnt ?>_t002_shipper_Name" class="t002_shipper_Name">
@@ -355,6 +361,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t002_shipper->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t002_shipper", "100%", "");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

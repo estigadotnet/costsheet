@@ -432,6 +432,10 @@ class index
 			$this->terminate("t098_userlevelpermissionslist.php");
 		if ($Security->allowList(CurrentProjectID() . 't099_audittrail'))
 			$this->terminate("t099_audittraillist.php");
+		if ($Security->allowList(CurrentProjectID() . 't101_costsheethead'))
+			$this->terminate("t101_costsheetheadlist.php");
+		if ($Security->allowList(CurrentProjectID() . 't102_costsheetdetail'))
+			$this->terminate("t102_costsheetdetaillist.php");
 		if ($Security->isLoggedIn()) {
 			$this->setFailureMessage(DeniedMessage() . "<br><br><a href=\"logout.php\">" . $Language->phrase("BackToLogin") . "</a>");
 		} else {

@@ -54,11 +54,6 @@ ft002_shipperedit.validate = function() {
 	for (var i = startcnt; i <= rowcnt; i++) {
 		var infix = ($k[0]) ? String(i) : "";
 		$fobj.data("rowindex", infix);
-		<?php if ($t002_shipper_edit->id->Required) { ?>
-			elm = this.getElements("x" + infix + "_id");
-			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
-				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t002_shipper->id->caption(), $t002_shipper->id->RequiredErrorMessage)) ?>");
-		<?php } ?>
 		<?php if ($t002_shipper_edit->Name->Required) { ?>
 			elm = this.getElements("x" + infix + "_Name");
 			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
@@ -111,18 +106,6 @@ $t002_shipper_edit->showMessage();
 <input type="hidden" name="action" id="action" value="update">
 <input type="hidden" name="modal" value="<?php echo (int)$t002_shipper_edit->IsModal ?>">
 <div class="ew-edit-div"><!-- page* -->
-<?php if ($t002_shipper->id->Visible) { // id ?>
-	<div id="r_id" class="form-group row">
-		<label id="elh_t002_shipper_id" class="<?php echo $t002_shipper_edit->LeftColumnClass ?>"><?php echo $t002_shipper->id->caption() ?><?php echo ($t002_shipper->id->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
-		<div class="<?php echo $t002_shipper_edit->RightColumnClass ?>"><div<?php echo $t002_shipper->id->cellAttributes() ?>>
-<span id="el_t002_shipper_id">
-<span<?php echo $t002_shipper->id->viewAttributes() ?>>
-<input type="text" readonly class="form-control-plaintext" value="<?php echo RemoveHtml($t002_shipper->id->EditValue) ?>"></span>
-</span>
-<input type="hidden" data-table="t002_shipper" data-field="x_id" name="x_id" id="x_id" value="<?php echo HtmlEncode($t002_shipper->id->CurrentValue) ?>">
-<?php echo $t002_shipper->id->CustomMsg ?></div></div>
-	</div>
-<?php } ?>
 <?php if ($t002_shipper->Name->Visible) { // Name ?>
 	<div id="r_Name" class="form-group row">
 		<label id="elh_t002_shipper_Name" for="x_Name" class="<?php echo $t002_shipper_edit->LeftColumnClass ?>"><?php echo $t002_shipper->Name->caption() ?><?php echo ($t002_shipper->Name->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
@@ -134,6 +117,7 @@ $t002_shipper_edit->showMessage();
 	</div>
 <?php } ?>
 </div><!-- /page* -->
+	<input type="hidden" data-table="t002_shipper" data-field="x_id" name="x_id" id="x_id" value="<?php echo HtmlEncode($t002_shipper->id->CurrentValue) ?>">
 <?php if (!$t002_shipper_edit->IsModal) { ?>
 <div class="form-group row"><!-- buttons .form-group -->
 	<div class="<?php echo $t002_shipper_edit->OffsetColumnClass ?>"><!-- buttons offset -->

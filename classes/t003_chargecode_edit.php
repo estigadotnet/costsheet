@@ -19,6 +19,14 @@ class t003_chargecode_edit extends t003_chargecode
 	// Page object name
 	public $PageObjName = "t003_chargecode_edit";
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -603,7 +611,7 @@ class t003_chargecode_edit extends t003_chargecode
 		// Create form object
 		$CurrentForm = new HttpForm();
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->Charge_Code->setVisibility();
 		$this->hideFieldsForAddEdit();
 
@@ -777,11 +785,6 @@ class t003_chargecode_edit extends t003_chargecode
 		// Load from form
 		global $CurrentForm;
 
-		// Check field name 'id' first before field var 'x_id'
-		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
-		if (!$this->id->IsDetailKey)
-			$this->id->setFormValue($val);
-
 		// Check field name 'Charge_Code' first before field var 'x_Charge_Code'
 		$val = $CurrentForm->hasValue("Charge_Code") ? $CurrentForm->getValue("Charge_Code") : $CurrentForm->getValue("x_Charge_Code");
 		if (!$this->Charge_Code->IsDetailKey) {
@@ -790,6 +793,11 @@ class t003_chargecode_edit extends t003_chargecode
 			else
 				$this->Charge_Code->setFormValue($val);
 		}
+
+		// Check field name 'id' first before field var 'x_id'
+		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
+		if (!$this->id->IsDetailKey)
+			$this->id->setFormValue($val);
 	}
 
 	// Restore form values
@@ -895,22 +903,11 @@ class t003_chargecode_edit extends t003_chargecode
 			$this->Charge_Code->ViewValue = $this->Charge_Code->CurrentValue;
 			$this->Charge_Code->ViewCustomAttributes = "";
 
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
-
 			// Charge_Code
 			$this->Charge_Code->LinkCustomAttributes = "";
 			$this->Charge_Code->HrefValue = "";
 			$this->Charge_Code->TooltipValue = "";
 		} elseif ($this->RowType == ROWTYPE_EDIT) { // Edit row
-
-			// id
-			$this->id->EditAttrs["class"] = "form-control";
-			$this->id->EditCustomAttributes = "";
-			$this->id->EditValue = $this->id->CurrentValue;
-			$this->id->ViewCustomAttributes = "";
 
 			// Charge_Code
 			$this->Charge_Code->EditAttrs["class"] = "form-control";
@@ -921,12 +918,8 @@ class t003_chargecode_edit extends t003_chargecode
 			$this->Charge_Code->PlaceHolder = RemoveHtml($this->Charge_Code->caption());
 
 			// Edit refer script
-			// id
-
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-
 			// Charge_Code
+
 			$this->Charge_Code->LinkCustomAttributes = "";
 			$this->Charge_Code->HrefValue = "";
 		}

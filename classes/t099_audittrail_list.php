@@ -60,6 +60,14 @@ class t099_audittrail_list extends t099_audittrail
 	public $MultiDeleteUrl;
 	public $MultiUpdateUrl;
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -908,6 +916,13 @@ class t099_audittrail_list extends t099_audittrail
 				else
 					$this->setWarningMessage($Language->phrase("NoRecord"));
 			}
+
+			// Audit trail on search
+			if ($this->AuditTrailOnSearch && $this->Command == "search" && !$this->RestoreSearch) {
+				$searchParm = ServerVar("QUERY_STRING");
+				$searchSql = $this->getSessionWhere();
+				$this->writeAuditTrailOnSearch($searchParm, $searchSql);
+			}
 		}
 
 		// Search options
@@ -1698,6 +1713,9 @@ class t099_audittrail_list extends t099_audittrail
 	protected function setupListOptionsExt()
 	{
 		global $Security, $Language;
+
+		// Hide detail items for dropdown if necessary
+		$this->ListOptions->hideDetailItemsForDropDown();
 	}
 	protected function renderListOptionsExt()
 	{

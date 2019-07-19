@@ -76,9 +76,6 @@ $t001_liner_delete->showMessage();
 <table class="table ew-table">
 	<thead>
 	<tr class="ew-table-header">
-<?php if ($t001_liner->id->Visible) { // id ?>
-		<th class="<?php echo $t001_liner->id->headerCellClass() ?>"><span id="elh_t001_liner_id" class="t001_liner_id"><?php echo $t001_liner->id->caption() ?></span></th>
-<?php } ?>
 <?php if ($t001_liner->Name->Visible) { // Name ?>
 		<th class="<?php echo $t001_liner->Name->headerCellClass() ?>"><span id="elh_t001_liner_Name" class="t001_liner_Name"><?php echo $t001_liner->Name->caption() ?></span></th>
 <?php } ?>
@@ -103,14 +100,6 @@ while (!$t001_liner_delete->Recordset->EOF) {
 	$t001_liner_delete->renderRow();
 ?>
 	<tr<?php echo $t001_liner->rowAttributes() ?>>
-<?php if ($t001_liner->id->Visible) { // id ?>
-		<td<?php echo $t001_liner->id->cellAttributes() ?>>
-<span id="el<?php echo $t001_liner_delete->RowCnt ?>_t001_liner_id" class="t001_liner_id">
-<span<?php echo $t001_liner->id->viewAttributes() ?>>
-<?php echo $t001_liner->id->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
 <?php if ($t001_liner->Name->Visible) { // Name ?>
 		<td<?php echo $t001_liner->Name->cellAttributes() ?>>
 <span id="el<?php echo $t001_liner_delete->RowCnt ?>_t001_liner_Name" class="t001_liner_Name">

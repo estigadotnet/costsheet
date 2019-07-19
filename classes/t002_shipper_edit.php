@@ -19,6 +19,14 @@ class t002_shipper_edit extends t002_shipper
 	// Page object name
 	public $PageObjName = "t002_shipper_edit";
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -603,7 +611,7 @@ class t002_shipper_edit extends t002_shipper
 		// Create form object
 		$CurrentForm = new HttpForm();
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->Name->setVisibility();
 		$this->hideFieldsForAddEdit();
 
@@ -777,11 +785,6 @@ class t002_shipper_edit extends t002_shipper
 		// Load from form
 		global $CurrentForm;
 
-		// Check field name 'id' first before field var 'x_id'
-		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
-		if (!$this->id->IsDetailKey)
-			$this->id->setFormValue($val);
-
 		// Check field name 'Name' first before field var 'x_Name'
 		$val = $CurrentForm->hasValue("Name") ? $CurrentForm->getValue("Name") : $CurrentForm->getValue("x_Name");
 		if (!$this->Name->IsDetailKey) {
@@ -790,6 +793,11 @@ class t002_shipper_edit extends t002_shipper
 			else
 				$this->Name->setFormValue($val);
 		}
+
+		// Check field name 'id' first before field var 'x_id'
+		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
+		if (!$this->id->IsDetailKey)
+			$this->id->setFormValue($val);
 	}
 
 	// Restore form values
@@ -895,22 +903,11 @@ class t002_shipper_edit extends t002_shipper
 			$this->Name->ViewValue = $this->Name->CurrentValue;
 			$this->Name->ViewCustomAttributes = "";
 
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
-
 			// Name
 			$this->Name->LinkCustomAttributes = "";
 			$this->Name->HrefValue = "";
 			$this->Name->TooltipValue = "";
 		} elseif ($this->RowType == ROWTYPE_EDIT) { // Edit row
-
-			// id
-			$this->id->EditAttrs["class"] = "form-control";
-			$this->id->EditCustomAttributes = "";
-			$this->id->EditValue = $this->id->CurrentValue;
-			$this->id->ViewCustomAttributes = "";
 
 			// Name
 			$this->Name->EditAttrs["class"] = "form-control";
@@ -921,12 +918,8 @@ class t002_shipper_edit extends t002_shipper
 			$this->Name->PlaceHolder = RemoveHtml($this->Name->caption());
 
 			// Edit refer script
-			// id
-
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-
 			// Name
+
 			$this->Name->LinkCustomAttributes = "";
 			$this->Name->HrefValue = "";
 		}

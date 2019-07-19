@@ -290,6 +290,11 @@ $t096_employees_edit->showMessage();
 		<div class="<?php echo $t096_employees_edit->RightColumnClass ?>"><div<?php echo $t096_employees->BirthDate->cellAttributes() ?>>
 <span id="el_t096_employees_BirthDate">
 <input type="text" data-table="t096_employees" data-field="x_BirthDate" name="x_BirthDate" id="x_BirthDate" placeholder="<?php echo HtmlEncode($t096_employees->BirthDate->getPlaceHolder()) ?>" value="<?php echo $t096_employees->BirthDate->EditValue ?>"<?php echo $t096_employees->BirthDate->editAttributes() ?>>
+<?php if (!$t096_employees->BirthDate->ReadOnly && !$t096_employees->BirthDate->Disabled && !isset($t096_employees->BirthDate->EditAttrs["readonly"]) && !isset($t096_employees->BirthDate->EditAttrs["disabled"])) { ?>
+<script>
+ew.createDateTimePicker("ft096_employeesedit", "x_BirthDate", {"ignoreReadonly":true,"useCurrent":false,"format":0});
+</script>
+<?php } ?>
 </span>
 <?php echo $t096_employees->BirthDate->CustomMsg ?></div></div>
 	</div>
@@ -300,6 +305,11 @@ $t096_employees_edit->showMessage();
 		<div class="<?php echo $t096_employees_edit->RightColumnClass ?>"><div<?php echo $t096_employees->HireDate->cellAttributes() ?>>
 <span id="el_t096_employees_HireDate">
 <input type="text" data-table="t096_employees" data-field="x_HireDate" name="x_HireDate" id="x_HireDate" placeholder="<?php echo HtmlEncode($t096_employees->HireDate->getPlaceHolder()) ?>" value="<?php echo $t096_employees->HireDate->EditValue ?>"<?php echo $t096_employees->HireDate->editAttributes() ?>>
+<?php if (!$t096_employees->HireDate->ReadOnly && !$t096_employees->HireDate->Disabled && !isset($t096_employees->HireDate->EditAttrs["readonly"]) && !isset($t096_employees->HireDate->EditAttrs["disabled"])) { ?>
+<script>
+ew.createDateTimePicker("ft096_employeesedit", "x_HireDate", {"ignoreReadonly":true,"useCurrent":false,"format":0});
+</script>
+<?php } ?>
 </span>
 <?php echo $t096_employees->HireDate->CustomMsg ?></div></div>
 	</div>

@@ -77,17 +77,6 @@ $t001_liner_view->showMessage();
 <input type="hidden" name="t" value="t001_liner">
 <input type="hidden" name="modal" value="<?php echo (int)$t001_liner_view->IsModal ?>">
 <table class="table table-striped table-sm ew-view-table">
-<?php if ($t001_liner->id->Visible) { // id ?>
-	<tr id="r_id">
-		<td class="<?php echo $t001_liner_view->TableLeftColumnClass ?>"><span id="elh_t001_liner_id"><?php echo $t001_liner->id->caption() ?></span></td>
-		<td data-name="id"<?php echo $t001_liner->id->cellAttributes() ?>>
-<span id="el_t001_liner_id">
-<span<?php echo $t001_liner->id->viewAttributes() ?>>
-<?php echo $t001_liner->id->getViewValue() ?></span>
-</span>
-</td>
-	</tr>
-<?php } ?>
 <?php if ($t001_liner->Name->Visible) { // Name ?>
 	<tr id="r_Name">
 		<td class="<?php echo $t001_liner_view->TableLeftColumnClass ?>"><span id="elh_t001_liner_Name"><?php echo $t001_liner->Name->caption() ?></span></td>

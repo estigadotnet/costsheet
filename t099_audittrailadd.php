@@ -155,6 +155,11 @@ $t099_audittrail_add->showMessage();
 		<div class="<?php echo $t099_audittrail_add->RightColumnClass ?>"><div<?php echo $t099_audittrail->datetime->cellAttributes() ?>>
 <span id="el_t099_audittrail_datetime">
 <input type="text" data-table="t099_audittrail" data-field="x_datetime" name="x_datetime" id="x_datetime" placeholder="<?php echo HtmlEncode($t099_audittrail->datetime->getPlaceHolder()) ?>" value="<?php echo $t099_audittrail->datetime->EditValue ?>"<?php echo $t099_audittrail->datetime->editAttributes() ?>>
+<?php if (!$t099_audittrail->datetime->ReadOnly && !$t099_audittrail->datetime->Disabled && !isset($t099_audittrail->datetime->EditAttrs["readonly"]) && !isset($t099_audittrail->datetime->EditAttrs["disabled"])) { ?>
+<script>
+ew.createDateTimePicker("ft099_audittrailadd", "x_datetime", {"ignoreReadonly":true,"useCurrent":false,"format":0});
+</script>
+<?php } ?>
 </span>
 <?php echo $t099_audittrail->datetime->CustomMsg ?></div></div>
 	</div>
