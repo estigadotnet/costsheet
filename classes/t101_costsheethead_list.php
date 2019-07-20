@@ -733,6 +733,7 @@ class t101_costsheethead_list extends t101_costsheethead
 		$this->pol_pod->setVisibility();
 		$this->top_2->setVisibility();
 		$this->no_cont->setVisibility();
+		$this->cs_date->setVisibility();
 		$this->hideFieldsForAddEdit();
 
 		// Global Page Loading event (in userfn*.php)
@@ -974,6 +975,7 @@ class t101_costsheethead_list extends t101_costsheethead
 			$this->updateSort($this->pol_pod, $ctrl); // pol_pod
 			$this->updateSort($this->top_2, $ctrl); // top_2
 			$this->updateSort($this->no_cont, $ctrl); // no_cont
+			$this->updateSort($this->cs_date, $ctrl); // cs_date
 			$this->setStartRecordNumber(1); // Reset start position
 		}
 	}
@@ -1016,6 +1018,7 @@ class t101_costsheethead_list extends t101_costsheethead
 				$this->pol_pod->setSort("");
 				$this->top_2->setSort("");
 				$this->no_cont->setSort("");
+				$this->cs_date->setSort("");
 			}
 
 			// Reset start position
@@ -1679,6 +1682,7 @@ class t101_costsheethead_list extends t101_costsheethead
 		$this->pol_pod->setDbValue($row['pol_pod']);
 		$this->top_2->setDbValue($row['top_2']);
 		$this->no_cont->setDbValue($row['no_cont']);
+		$this->cs_date->setDbValue($row['cs_date']);
 		if (!isset($GLOBALS["t102_costsheetdetail_grid"]))
 			$GLOBALS["t102_costsheetdetail_grid"] = new t102_costsheetdetail_grid();
 		$detailFilter = $GLOBALS["t102_costsheetdetail"]->sqlDetailFilter_t101_costsheethead();
@@ -1704,6 +1708,7 @@ class t101_costsheethead_list extends t101_costsheethead
 		$row['pol_pod'] = NULL;
 		$row['top_2'] = NULL;
 		$row['no_cont'] = NULL;
+		$row['cs_date'] = NULL;
 		return $row;
 	}
 
@@ -1759,6 +1764,7 @@ class t101_costsheethead_list extends t101_costsheethead
 		// pol_pod
 		// top_2
 		// no_cont
+		// cs_date
 
 		if ($this->RowType == ROWTYPE_VIEW) { // View row
 
@@ -1859,6 +1865,11 @@ class t101_costsheethead_list extends t101_costsheethead
 			$this->no_cont->ViewValue = $this->no_cont->CurrentValue;
 			$this->no_cont->ViewCustomAttributes = "";
 
+			// cs_date
+			$this->cs_date->ViewValue = $this->cs_date->CurrentValue;
+			$this->cs_date->ViewValue = FormatDateTime($this->cs_date->ViewValue, 11);
+			$this->cs_date->ViewCustomAttributes = "";
+
 			// liner_id
 			$this->liner_id->LinkCustomAttributes = "";
 			$this->liner_id->HrefValue = "";
@@ -1913,6 +1924,11 @@ class t101_costsheethead_list extends t101_costsheethead
 			$this->no_cont->LinkCustomAttributes = "";
 			$this->no_cont->HrefValue = "";
 			$this->no_cont->TooltipValue = "";
+
+			// cs_date
+			$this->cs_date->LinkCustomAttributes = "";
+			$this->cs_date->HrefValue = "";
+			$this->cs_date->TooltipValue = "";
 		}
 
 		// Call Row Rendered event

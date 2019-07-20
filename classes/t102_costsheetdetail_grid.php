@@ -2339,6 +2339,29 @@ class t102_costsheetdetail_grid extends t102_costsheetdetail
 			// rfc_total
 			$this->rfc_total->setDbValueDef($rsnew, $this->rfc_total->CurrentValue, 0, $this->rfc_total->ReadOnly);
 
+			// Check referential integrity for master table 't101_costsheethead'
+			$validMasterRecord = TRUE;
+			$masterFilter = $this->sqlMasterFilter_t101_costsheethead();
+			$keyValue = isset($rsnew['costsheethead_id']) ? $rsnew['costsheethead_id'] : $rsold['costsheethead_id'];
+			if (strval($keyValue) <> "") {
+				$masterFilter = str_replace("@id@", AdjustSql($keyValue), $masterFilter);
+			} else {
+				$validMasterRecord = FALSE;
+			}
+			if ($validMasterRecord) {
+				if (!isset($GLOBALS["t101_costsheethead"]))
+					$GLOBALS["t101_costsheethead"] = new t101_costsheethead();
+				$rsmaster = $GLOBALS["t101_costsheethead"]->loadRs($masterFilter);
+				$validMasterRecord = ($rsmaster && !$rsmaster->EOF);
+				$rsmaster->close();
+			}
+			if (!$validMasterRecord) {
+				$relatedRecordMsg = str_replace("%t", "t101_costsheethead", $Language->phrase("RelatedRecordRequired"));
+				$this->setFailureMessage($relatedRecordMsg);
+				$rs->close();
+				return FALSE;
+			}
+
 			// Call Row Updating event
 			$updateRow = $this->Row_Updating($rsold, $rsnew);
 			if ($updateRow) {
@@ -2386,6 +2409,27 @@ class t102_costsheetdetail_grid extends t102_costsheetdetail
 			if ($this->getCurrentMasterTable() == "t101_costsheethead") {
 				$this->costsheethead_id->CurrentValue = $this->costsheethead_id->getSessionValue();
 			}
+
+		// Check referential integrity for master table 't101_costsheethead'
+		$validMasterRecord = TRUE;
+		$masterFilter = $this->sqlMasterFilter_t101_costsheethead();
+		if ($this->costsheethead_id->getSessionValue() <> "") {
+			$masterFilter = str_replace("@id@", AdjustSql($this->costsheethead_id->getSessionValue(), "DB"), $masterFilter);
+		} else {
+			$validMasterRecord = FALSE;
+		}
+		if ($validMasterRecord) {
+			if (!isset($GLOBALS["t101_costsheethead"]))
+				$GLOBALS["t101_costsheethead"] = new t101_costsheethead();
+			$rsmaster = $GLOBALS["t101_costsheethead"]->loadRs($masterFilter);
+			$validMasterRecord = ($rsmaster && !$rsmaster->EOF);
+			$rsmaster->close();
+		}
+		if (!$validMasterRecord) {
+			$relatedRecordMsg = str_replace("%t", "t101_costsheethead", $Language->phrase("RelatedRecordRequired"));
+			$this->setFailureMessage($relatedRecordMsg);
+			return FALSE;
+		}
 		$conn = &$this->getConnection();
 
 		// Load db values from rsold

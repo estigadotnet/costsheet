@@ -7414,7 +7414,7 @@ function Database_Connecting(&$info) {
 	//	$info["pass"] = "";
 	//}
 
-	if (CurrentUserIP () == "127.0.0.1"  || CurrentUserIP () == "::1"  || CurrentHost () == "localhost" ) { // testing on local PC
+	/*if (CurrentUserIP () == "127.0.0.1:8080"  || CurrentUserIP () == "::1"  || CurrentHost () == "localhost:8080" ) { // testing on local PC
 		$info["host"] = "localhost";
 		$info["user"] = "root"; // sesuaikan dengan username database di komputer localhost
 		$info["pass"] = "admin"; // sesuaikan dengan password database di komputer localhost
@@ -7427,18 +7427,22 @@ function Database_Connecting(&$info) {
 		$info["pass"] = "PresarioCQ43"; // sesuaikan deengan password database di komputer server
 		$info["db"] = "u473805576_costs"; // sesuaikan dengan nama database di komputer server
 		$info["port"] = "3306";
+	}*/
+	//print_r($info); exit;
+	if (CurrentHost () == "costsheet.estiga.net") { // setting koneksi database untuk komputer server
+		$info["host"] = "mysql.idhostinger.com";  // sesuaikan dengan ip address atau hostname komputer server
+		$info["user"] = "u473805576_costs"; // sesuaikan dengan username database di komputer server
+		$info["pass"] = "PresarioCQ43"; // sesuaikan deengan password database di komputer server
+		$info["db"] = "u473805576_costs"; // sesuaikan dengan nama database di komputer server
+		$info["port"] = "3306";
 	}
 }
-
 // Database Connected event
 function Database_Connected(&$conn) {
-
 	// Example:
 	//if ($conn->info["id"] == "DB")
 	//	$conn->Execute("Your SQL");
-
 }
-
 // Cast date/time field for LIKE
 function CastDateFieldForLike($fld, $namedformat, $dbid = 0) {
 	global $DATE_SEPARATOR, $TIME_SEPARATOR, $DATE_FORMAT, $DATE_FORMAT_ID;
@@ -7533,7 +7537,6 @@ function CastDateFieldForLike($fld, $namedformat, $dbid = 0) {
 	}
 	return $fld;
 }
-
 // Append like operator
 function Like($pat, $dbid = 0) {
 	$dbtype = GetConnectionType($dbid);
@@ -7555,7 +7558,6 @@ function Like($pat, $dbid = 0) {
 		return " LIKE " . $pat;
 	}
 }
-
 // Return multi-value search SQL
 function GetMultiSearchSql(&$fld, $fldOpr, $fldVal, $dbid) {
 	if ($fldOpr == "IS NULL" || $fldOpr == "IS NOT NULL") {
@@ -7600,25 +7602,21 @@ function GetMultiSearchSql(&$fld, $fldOpr, $fldVal, $dbid) {
 		return $wrk;
 	}
 }
-
 // Get multi search SQL part
 function GetMultiSearchSqlPart(&$fld, $fldVal, $dbid) {
 	return $fld->Expression . Like("'" . AdjustSql($fldVal, $dbid) . ",%'", $dbid) . " OR " .
 		$fld->Expression . Like("'%," . AdjustSql($fldVal, $dbid) . ",%'", $dbid) . " OR " .
 		$fld->Expression . Like("'%," . AdjustSql($fldVal, $dbid) . "'", $dbid);
 }
-
 // Check if float format
 function IsFloatFormat($fldType) {
 	return ($fldType == 4 || $fldType == 5 || $fldType == 131 || $fldType == 6);
 }
-
 // Check if is numeric
 function IsNumeric($value) {
 	$value = ConvertToFloatString($value);
 	return is_numeric($value);
 }
-
 // Get search SQL
 function GetSearchSql(&$fld, $fldVal, $fldOpr, $fldCond, $fldVal2, $fldOpr2, $dbid) {
 	$sql = "";
@@ -7650,7 +7648,6 @@ function GetSearchSql(&$fld, $fldVal, $fldOpr, $fldCond, $fldVal2, $fldOpr2, $db
 			$sql = $fldExpression . " BETWEEN " . QuotedValue($fldVal, $fldDataType, $dbid) .
 				" AND " . QuotedValue($fldVal2, $fldDataType, $dbid);
 	} else {
-
 		// Handle first value
 		if ($fldVal == NULL_VALUE || $fldOpr == "IS NULL") {
 			$sql = $fld->Expression . " IS NULL";
@@ -7665,7 +7662,6 @@ function GetSearchSql(&$fld, $fldVal, $fldOpr, $fldCond, $fldVal2, $fldOpr2, $db
 					$sql = "(" . $sql . " OR " . $fldExpression . " IS NULL)";
 			}
 		}
-
 		// Handle second value
 		$sql2 = "";
 		if ($fldVal2 == NULL_VALUE || $fldOpr2 == "IS NULL") {
@@ -7681,7 +7677,6 @@ function GetSearchSql(&$fld, $fldVal, $fldOpr, $fldCond, $fldVal2, $fldOpr2, $db
 					$sql2 = "(" . $sql2 . " OR " . $fldExpression . " IS NULL)";
 			}
 		}
-
 		// Combine SQL
 		if ($sql2 <> "") {
 			if ($sql <> "")
@@ -7692,7 +7687,6 @@ function GetSearchSql(&$fld, $fldVal, $fldOpr, $fldCond, $fldVal2, $fldOpr2, $db
 	}
 	return $sql;
 }
-
 // Return search string
 function SearchString($fldOpr, $fldVal, $fldType, $dbid) {
 	if (strval($fldVal) == NULL_VALUE || $fldOpr == "IS NULL") {
@@ -7714,7 +7708,6 @@ function SearchString($fldOpr, $fldVal, $fldType, $dbid) {
 			return " " . $fldOpr . " " . QuotedValue($fldVal, $fldType, $dbid);
 	}
 }
-
 // Check if valid operator
 function IsValidOpr($opr, $fldType) {
 	$valid = ($opr == "=" || $opr == "<" || $opr == "<=" ||
@@ -7723,7 +7716,6 @@ function IsValidOpr($opr, $fldType) {
 		$valid = ($valid || $opr == "LIKE" || $opr == "NOT LIKE" || $opr == "STARTS WITH" || $opr == "ENDS WITH");
 	return $valid;
 }
-
 // Quote table/field name based on dbid
 function QuotedName($name, $dbid = 0) {
 	global $CONNECTIONS;
@@ -7738,7 +7730,6 @@ function QuotedName($name, $dbid = 0) {
 		return DB_QUOTE_START . $name . DB_QUOTE_END;
 	}
 }
-
 // Quote field value based on dbid
 function QuotedValue($value, $fldType, $dbid = 0) {
 	if ($value === NULL)
@@ -7796,7 +7787,6 @@ function QuotedValue($value, $fldType, $dbid = 0) {
 			return $value;
 	}
 }
-
 // Convert different data type value
 function ConvertValue($v, $t) {
 	switch ($t) {
@@ -7817,7 +7807,6 @@ function ConvertValue($v, $t) {
 		return ($v === NULL) ? NULL : $v;
 	}
 }
-
 // Convert string to float
 function ConvertToFloatString($v) {
 	global $THOUSANDS_SEP, $DECIMAL_POINT;
@@ -7825,7 +7814,6 @@ function ConvertToFloatString($v) {
 	$v = str_replace([$THOUSANDS_SEP, $DECIMAL_POINT], ["", "."], $v);
 	return $v;
 }
-
 // Convert string to int
 function ConvertToIntegerString($v) {
 	global $DECIMAL_POINT;
@@ -7833,7 +7821,6 @@ function ConvertToIntegerString($v) {
 	$ar = explode($DECIMAL_POINT, $v);
 	return $ar[0];
 }
-
 // Concat string
 function Concat($str1, $str2, $sep) {
 	$str1 = trim($str1);
@@ -7842,7 +7829,6 @@ function Concat($str1, $str2, $sep) {
 		$str1 .= $sep;
 	return $str1 . $str2;
 }
-
 // Write message to debug file
 function Trace($msg) {
 	$filename = "debug.txt";
@@ -7851,7 +7837,6 @@ function Trace($msg) {
 		fwrite($handle, $msg . "\n");
 	fclose($handle);
 }
-
 // Compare values with special handling for null values
 function CompareValue($v1, $v2) {
 	if ($v1 === NULL && $v2 === NULL) {
@@ -7862,12 +7847,10 @@ function CompareValue($v1, $v2) {
 		return ($v1 == $v2);
 	}
 }
-
 // Check if boolean value is TRUE
 function ConvertToBool($value) {
 	return $value === TRUE || SameText($value, "1") || SameText($value, "y") || SameText($value, "t") || SameText($value, "true");
 }
-
 // Add message
 function AddMessage(&$msg, $msgtoadd, $sep = "<br>") {
 	if (strval($msgtoadd) <> "") {

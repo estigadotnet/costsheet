@@ -232,6 +232,15 @@ $t101_costsheethead_list->ListOptions->render("header", "left");
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
+<?php if ($t101_costsheethead->cs_date->Visible) { // cs_date ?>
+	<?php if ($t101_costsheethead->sortUrl($t101_costsheethead->cs_date) == "") { ?>
+		<th data-name="cs_date" class="<?php echo $t101_costsheethead->cs_date->headerCellClass() ?>"><div id="elh_t101_costsheethead_cs_date" class="t101_costsheethead_cs_date"><div class="ew-table-header-caption"><?php echo $t101_costsheethead->cs_date->caption() ?></div></div></th>
+	<?php } else { ?>
+		<th data-name="cs_date" class="<?php echo $t101_costsheethead->cs_date->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t101_costsheethead->SortUrl($t101_costsheethead->cs_date) ?>',2);"><div id="elh_t101_costsheethead_cs_date" class="t101_costsheethead_cs_date">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t101_costsheethead->cs_date->caption() ?></span><span class="ew-table-header-sort"><?php if ($t101_costsheethead->cs_date->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t101_costsheethead->cs_date->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+		</div></div></th>
+	<?php } ?>
+<?php } ?>
 <?php
 
 // Render list options (header, right)
@@ -382,6 +391,14 @@ $t101_costsheethead_list->ListOptions->render("body", "left", $t101_costsheethea
 <span id="el<?php echo $t101_costsheethead_list->RowCnt ?>_t101_costsheethead_no_cont" class="t101_costsheethead_no_cont">
 <span<?php echo $t101_costsheethead->no_cont->viewAttributes() ?>>
 <?php echo $t101_costsheethead->no_cont->getViewValue() ?></span>
+</span>
+</td>
+	<?php } ?>
+	<?php if ($t101_costsheethead->cs_date->Visible) { // cs_date ?>
+		<td data-name="cs_date"<?php echo $t101_costsheethead->cs_date->cellAttributes() ?>>
+<span id="el<?php echo $t101_costsheethead_list->RowCnt ?>_t101_costsheethead_cs_date" class="t101_costsheethead_cs_date">
+<span<?php echo $t101_costsheethead->cs_date->viewAttributes() ?>>
+<?php echo $t101_costsheethead->cs_date->getViewValue() ?></span>
 </span>
 </td>
 	<?php } ?>

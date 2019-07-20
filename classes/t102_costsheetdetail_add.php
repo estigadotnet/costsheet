@@ -1278,6 +1278,27 @@ class t102_costsheetdetail_add extends t102_costsheetdetail
 	protected function addRow($rsold = NULL)
 	{
 		global $Language, $Security;
+
+		// Check referential integrity for master table 't101_costsheethead'
+		$validMasterRecord = TRUE;
+		$masterFilter = $this->sqlMasterFilter_t101_costsheethead();
+		if ($this->costsheethead_id->getSessionValue() <> "") {
+			$masterFilter = str_replace("@id@", AdjustSql($this->costsheethead_id->getSessionValue(), "DB"), $masterFilter);
+		} else {
+			$validMasterRecord = FALSE;
+		}
+		if ($validMasterRecord) {
+			if (!isset($GLOBALS["t101_costsheethead"]))
+				$GLOBALS["t101_costsheethead"] = new t101_costsheethead();
+			$rsmaster = $GLOBALS["t101_costsheethead"]->loadRs($masterFilter);
+			$validMasterRecord = ($rsmaster && !$rsmaster->EOF);
+			$rsmaster->close();
+		}
+		if (!$validMasterRecord) {
+			$relatedRecordMsg = str_replace("%t", "t101_costsheethead", $Language->phrase("RelatedRecordRequired"));
+			$this->setFailureMessage($relatedRecordMsg);
+			return FALSE;
+		}
 		$conn = &$this->getConnection();
 
 		// Load db values from rsold

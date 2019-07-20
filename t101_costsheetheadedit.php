@@ -112,6 +112,11 @@ ft101_costsheetheadedit.validate = function() {
 			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
 				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t101_costsheethead->no_cont->caption(), $t101_costsheethead->no_cont->RequiredErrorMessage)) ?>");
 		<?php } ?>
+		<?php if ($t101_costsheethead_edit->cs_date->Required) { ?>
+			elm = this.getElements("x" + infix + "_cs_date");
+			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
+				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t101_costsheethead->cs_date->caption(), $t101_costsheethead->cs_date->RequiredErrorMessage)) ?>");
+		<?php } ?>
 
 			// Fire Form_CustomValidate event
 			if (!this.Form_CustomValidate(fobj))
@@ -176,6 +181,7 @@ $t101_costsheethead_edit->showMessage();
 	<ul class="<?php echo $t101_costsheethead_edit->MultiPages->navStyle() ?>">
 		<li class="nav-item"><a class="nav-link<?php echo $t101_costsheethead_edit->MultiPages->pageStyle("1") ?>" href="#tab_t101_costsheethead1" data-toggle="tab"><?php echo $t101_costsheethead->pageCaption(1) ?></a></li>
 		<li class="nav-item"><a class="nav-link<?php echo $t101_costsheethead_edit->MultiPages->pageStyle("2") ?>" href="#tab_t101_costsheethead2" data-toggle="tab"><?php echo $t101_costsheethead->pageCaption(2) ?></a></li>
+		<li class="nav-item"><a class="nav-link<?php echo $t101_costsheethead_edit->MultiPages->pageStyle("3") ?>" href="#tab_t101_costsheethead3" data-toggle="tab"><?php echo $t101_costsheethead->pageCaption(3) ?></a></li>
 	</ul>
 	<div class="tab-content"><!-- multi-page tabs .tab-content -->
 		<div class="tab-pane<?php echo $t101_costsheethead_edit->MultiPages->pageStyle("1") ?>" id="tab_t101_costsheethead1"><!-- multi-page .tab-pane -->
@@ -317,6 +323,22 @@ $t101_costsheethead_edit->showMessage();
 <input type="text" data-table="t101_costsheethead" data-field="x_no_cont" data-page="2" name="x_no_cont" id="x_no_cont" size="30" maxlength="50" placeholder="<?php echo HtmlEncode($t101_costsheethead->no_cont->getPlaceHolder()) ?>" value="<?php echo $t101_costsheethead->no_cont->EditValue ?>"<?php echo $t101_costsheethead->no_cont->editAttributes() ?>>
 </span>
 <?php echo $t101_costsheethead->no_cont->CustomMsg ?></div></div>
+	</div>
+<?php } ?>
+</div><!-- /page* -->
+		</div><!-- /multi-page .tab-pane -->
+		<div class="tab-pane<?php echo $t101_costsheethead_edit->MultiPages->pageStyle("3") ?>" id="tab_t101_costsheethead3"><!-- multi-page .tab-pane -->
+<div class="ew-edit-div"><!-- page* -->
+<?php if ($t101_costsheethead->cs_date->Visible) { // cs_date ?>
+	<div id="r_cs_date" class="form-group row">
+		<label id="elh_t101_costsheethead_cs_date" for="x_cs_date" class="<?php echo $t101_costsheethead_edit->LeftColumnClass ?>"><?php echo $t101_costsheethead->cs_date->caption() ?><?php echo ($t101_costsheethead->cs_date->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+		<div class="<?php echo $t101_costsheethead_edit->RightColumnClass ?>"><div<?php echo $t101_costsheethead->cs_date->cellAttributes() ?>>
+<span id="el_t101_costsheethead_cs_date">
+<span<?php echo $t101_costsheethead->cs_date->viewAttributes() ?>>
+<input type="text" readonly class="form-control-plaintext" value="<?php echo RemoveHtml($t101_costsheethead->cs_date->EditValue) ?>"></span>
+</span>
+<input type="hidden" data-table="t101_costsheethead" data-field="x_cs_date" data-page="3" name="x_cs_date" id="x_cs_date" value="<?php echo HtmlEncode($t101_costsheethead->cs_date->CurrentValue) ?>">
+<?php echo $t101_costsheethead->cs_date->CustomMsg ?></div></div>
 	</div>
 <?php } ?>
 </div><!-- /page* -->

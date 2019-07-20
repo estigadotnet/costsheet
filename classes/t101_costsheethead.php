@@ -45,6 +45,7 @@ class t101_costsheethead extends DbTable
 	public $pol_pod;
 	public $top_2;
 	public $no_cont;
+	public $cs_date;
 
 	// Constructor
 	public function __construct()
@@ -174,6 +175,14 @@ class t101_costsheethead extends DbTable
 		$this->no_cont->Required = TRUE; // Required field
 		$this->no_cont->Sortable = TRUE; // Allow sort
 		$this->fields['no_cont'] = &$this->no_cont;
+
+		// cs_date
+		$this->cs_date = new DbField('t101_costsheethead', 't101_costsheethead', 'x_cs_date', 'cs_date', '`cs_date`', CastDateFieldForLike('`cs_date`', 11, "DB"), 135, 11, FALSE, '`cs_date`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->cs_date->Nullable = FALSE; // NOT NULL field
+		$this->cs_date->Required = TRUE; // Required field
+		$this->cs_date->Sortable = TRUE; // Allow sort
+		$this->cs_date->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
+		$this->fields['cs_date'] = &$this->cs_date;
 	}
 
 	// Field Visibility
@@ -517,6 +526,37 @@ class t101_costsheethead extends DbTable
 	public function update(&$rs, $where = "", $rsold = NULL, $curfilter = TRUE)
 	{
 		$conn = &$this->getConnection();
+
+		// Cascade Update detail table 't102_costsheetdetail'
+		$cascadeUpdate = FALSE;
+		$rscascade = array();
+		if ($rsold && (isset($rs['id']) && $rsold['id'] <> $rs['id'])) { // Update detail field 'costsheethead_id'
+			$cascadeUpdate = TRUE;
+			$rscascade['costsheethead_id'] = $rs['id']; 
+		}
+		if ($cascadeUpdate) {
+			if (!isset($GLOBALS["t102_costsheetdetail"]))
+				$GLOBALS["t102_costsheetdetail"] = new t102_costsheetdetail();
+			$rswrk = $GLOBALS["t102_costsheetdetail"]->loadRs("`costsheethead_id` = " . QuotedValue($rsold['id'], DATATYPE_NUMBER, 'DB')); 
+			while ($rswrk && !$rswrk->EOF) {
+				$rskey = array();
+				$fldname = 'id';
+				$rskey[$fldname] = $rswrk->fields[$fldname];
+				$rsdtlold = &$rswrk->fields;
+				$rsdtlnew = array_merge($rsdtlold, $rscascade);
+
+				// Call Row_Updating event
+				$success = $GLOBALS["t102_costsheetdetail"]->Row_Updating($rsdtlold, $rsdtlnew);
+				if ($success)
+					$success = $GLOBALS["t102_costsheetdetail"]->update($rscascade, $rskey, $rswrk->fields);
+				if (!$success)
+					return FALSE;
+
+				// Call Row_Updated event
+				$GLOBALS["t102_costsheetdetail"]->Row_Updated($rsdtlold, $rsdtlnew);
+				$rswrk->moveNext();
+			}
+		}
 		$success = $conn->execute($this->updateSql($rs, $where, $curfilter));
 		if ($success && $this->AuditTrailOnEdit && $rsold) {
 			$rsaudit = $rs;
@@ -552,6 +592,32 @@ class t101_costsheethead extends DbTable
 	{
 		$success = TRUE;
 		$conn = &$this->getConnection();
+
+		// Cascade delete detail table 't102_costsheetdetail'
+		if (!isset($GLOBALS["t102_costsheetdetail"]))
+			$GLOBALS["t102_costsheetdetail"] = new t102_costsheetdetail();
+		$rscascade = $GLOBALS["t102_costsheetdetail"]->loadRs("`costsheethead_id` = " . QuotedValue($rs['id'], DATATYPE_NUMBER, "DB")); 
+		$dtlrows = ($rscascade) ? $rscascade->getRows() : array();
+
+		// Call Row Deleting event
+		foreach ($dtlrows as $dtlrow) {
+			$success = $GLOBALS["t102_costsheetdetail"]->Row_Deleting($dtlrow);
+			if (!$success)
+				break;
+		}
+		if ($success) {
+			foreach ($dtlrows as $dtlrow) {
+				$success = $GLOBALS["t102_costsheetdetail"]->delete($dtlrow); // Delete
+				if (!$success)
+					break;
+			}
+		}
+
+		// Call Row Deleted event
+		if ($success) {
+			foreach ($dtlrows as $dtlrow)
+				$GLOBALS["t102_costsheetdetail"]->Row_Deleted($dtlrow);
+		}
 		if ($success)
 			$success = $conn->execute($this->deleteSql($rs, $where, $curfilter));
 		if ($success && $this->AuditTrailOnDelete)
@@ -577,6 +643,7 @@ class t101_costsheethead extends DbTable
 		$this->pol_pod->DbValue = $row['pol_pod'];
 		$this->top_2->DbValue = $row['top_2'];
 		$this->no_cont->DbValue = $row['no_cont'];
+		$this->cs_date->DbValue = $row['cs_date'];
 	}
 
 	// Delete uploaded files
@@ -820,6 +887,7 @@ class t101_costsheethead extends DbTable
 		$this->pol_pod->setDbValue($rs->fields('pol_pod'));
 		$this->top_2->setDbValue($rs->fields('top_2'));
 		$this->no_cont->setDbValue($rs->fields('no_cont'));
+		$this->cs_date->setDbValue($rs->fields('cs_date'));
 	}
 
 	// Render list row values
@@ -843,6 +911,7 @@ class t101_costsheethead extends DbTable
 		// pol_pod
 		// top_2
 		// no_cont
+		// cs_date
 		// id
 
 		$this->id->ViewValue = $this->id->CurrentValue;
@@ -941,6 +1010,11 @@ class t101_costsheethead extends DbTable
 		$this->no_cont->ViewValue = $this->no_cont->CurrentValue;
 		$this->no_cont->ViewCustomAttributes = "";
 
+		// cs_date
+		$this->cs_date->ViewValue = $this->cs_date->CurrentValue;
+		$this->cs_date->ViewValue = FormatDateTime($this->cs_date->ViewValue, 11);
+		$this->cs_date->ViewCustomAttributes = "";
+
 		// id
 		$this->id->LinkCustomAttributes = "";
 		$this->id->HrefValue = "";
@@ -1000,6 +1074,11 @@ class t101_costsheethead extends DbTable
 		$this->no_cont->LinkCustomAttributes = "";
 		$this->no_cont->HrefValue = "";
 		$this->no_cont->TooltipValue = "";
+
+		// cs_date
+		$this->cs_date->LinkCustomAttributes = "";
+		$this->cs_date->HrefValue = "";
+		$this->cs_date->TooltipValue = "";
 
 		// Call Row Rendered event
 		$this->Row_Rendered();
@@ -1088,6 +1167,13 @@ class t101_costsheethead extends DbTable
 		$this->no_cont->EditValue = $this->no_cont->CurrentValue;
 		$this->no_cont->PlaceHolder = RemoveHtml($this->no_cont->caption());
 
+		// cs_date
+		$this->cs_date->EditAttrs["class"] = "form-control";
+		$this->cs_date->EditCustomAttributes = "";
+		$this->cs_date->EditValue = $this->cs_date->CurrentValue;
+		$this->cs_date->EditValue = FormatDateTime($this->cs_date->EditValue, 11);
+		$this->cs_date->ViewCustomAttributes = "";
+
 		// Call Row Rendered event
 		$this->Row_Rendered();
 	}
@@ -1128,6 +1214,7 @@ class t101_costsheethead extends DbTable
 					$doc->exportCaption($this->pol_pod);
 					$doc->exportCaption($this->top_2);
 					$doc->exportCaption($this->no_cont);
+					$doc->exportCaption($this->cs_date);
 				} else {
 					$doc->exportCaption($this->id);
 					$doc->exportCaption($this->liner_id);
@@ -1141,6 +1228,7 @@ class t101_costsheethead extends DbTable
 					$doc->exportCaption($this->pol_pod);
 					$doc->exportCaption($this->top_2);
 					$doc->exportCaption($this->no_cont);
+					$doc->exportCaption($this->cs_date);
 				}
 				$doc->endExportRow();
 			}
@@ -1183,6 +1271,7 @@ class t101_costsheethead extends DbTable
 						$doc->exportField($this->pol_pod);
 						$doc->exportField($this->top_2);
 						$doc->exportField($this->no_cont);
+						$doc->exportField($this->cs_date);
 					} else {
 						$doc->exportField($this->id);
 						$doc->exportField($this->liner_id);
@@ -1196,6 +1285,7 @@ class t101_costsheethead extends DbTable
 						$doc->exportField($this->pol_pod);
 						$doc->exportField($this->top_2);
 						$doc->exportField($this->no_cont);
+						$doc->exportField($this->cs_date);
 					}
 					$doc->endExportRow($rowCnt);
 				}
@@ -1635,6 +1725,20 @@ class t101_costsheethead extends DbTable
 		// To view properties of field class, use:
 		//var_dump($this-><FieldName>);
 
+		if (CurrentPageID() == "add" && $this->CurrentAction != "F") {
+
+			//if ($this->CompID->CurrentValue=="") {
+			$this->cs_date->CurrentValue = date('d-m-Y H:i:s'); //"Your Default Value"; // adjust it with yours
+
+			//}
+			// the following 2 lines of code is useful if you want to make it as a read-only field
+
+			$this->cs_date->EditValue = $this->cs_date->CurrentValue;
+			$this->cs_date->ReadOnly = TRUE;
+		}
+		if ($this->CurrentAction == "add" && $this->CurrentAction == "F") {
+			$this->cs_date->ViewValue = $this->cs_date->CurrentValue;
+		}
 	}
 
 	// User ID Filtering event

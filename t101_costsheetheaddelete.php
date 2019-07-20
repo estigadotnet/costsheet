@@ -119,6 +119,9 @@ $t101_costsheethead_delete->showMessage();
 <?php if ($t101_costsheethead->no_cont->Visible) { // no_cont ?>
 		<th class="<?php echo $t101_costsheethead->no_cont->headerCellClass() ?>"><span id="elh_t101_costsheethead_no_cont" class="t101_costsheethead_no_cont"><?php echo $t101_costsheethead->no_cont->caption() ?></span></th>
 <?php } ?>
+<?php if ($t101_costsheethead->cs_date->Visible) { // cs_date ?>
+		<th class="<?php echo $t101_costsheethead->cs_date->headerCellClass() ?>"><span id="elh_t101_costsheethead_cs_date" class="t101_costsheethead_cs_date"><?php echo $t101_costsheethead->cs_date->caption() ?></span></th>
+<?php } ?>
 	</tr>
 	</thead>
 	<tbody>
@@ -225,6 +228,14 @@ while (!$t101_costsheethead_delete->Recordset->EOF) {
 <span id="el<?php echo $t101_costsheethead_delete->RowCnt ?>_t101_costsheethead_no_cont" class="t101_costsheethead_no_cont">
 <span<?php echo $t101_costsheethead->no_cont->viewAttributes() ?>>
 <?php echo $t101_costsheethead->no_cont->getViewValue() ?></span>
+</span>
+</td>
+<?php } ?>
+<?php if ($t101_costsheethead->cs_date->Visible) { // cs_date ?>
+		<td<?php echo $t101_costsheethead->cs_date->cellAttributes() ?>>
+<span id="el<?php echo $t101_costsheethead_delete->RowCnt ?>_t101_costsheethead_cs_date" class="t101_costsheethead_cs_date">
+<span<?php echo $t101_costsheethead->cs_date->viewAttributes() ?>>
+<?php echo $t101_costsheethead->cs_date->getViewValue() ?></span>
 </span>
 </td>
 <?php } ?>

@@ -95,6 +95,7 @@ $t101_costsheethead_view->showMessage();
 	<ul class="<?php echo $t101_costsheethead_view->MultiPages->navStyle() ?>">
 		<li class="nav-item"><a class="nav-link<?php echo $t101_costsheethead_view->MultiPages->pageStyle("1") ?>" href="#tab_t101_costsheethead1" data-toggle="tab"><?php echo $t101_costsheethead->pageCaption(1) ?></a></li>
 		<li class="nav-item"><a class="nav-link<?php echo $t101_costsheethead_view->MultiPages->pageStyle("2") ?>" href="#tab_t101_costsheethead2" data-toggle="tab"><?php echo $t101_costsheethead->pageCaption(2) ?></a></li>
+		<li class="nav-item"><a class="nav-link<?php echo $t101_costsheethead_view->MultiPages->pageStyle("3") ?>" href="#tab_t101_costsheethead3" data-toggle="tab"><?php echo $t101_costsheethead->pageCaption(3) ?></a></li>
 	</ul>
 	<div class="tab-content">
 <?php } ?>
@@ -227,6 +228,25 @@ $t101_costsheethead_view->showMessage();
 <span id="el_t101_costsheethead_no_cont" data-page="2">
 <span<?php echo $t101_costsheethead->no_cont->viewAttributes() ?>>
 <?php echo $t101_costsheethead->no_cont->getViewValue() ?></span>
+</span>
+</td>
+	</tr>
+<?php } ?>
+</table>
+<?php if (!$t101_costsheethead->isExport()) { ?>
+		</div>
+<?php } ?>
+<?php if (!$t101_costsheethead->isExport()) { ?>
+		<div class="tab-pane<?php echo $t101_costsheethead_view->MultiPages->pageStyle("3") ?>" id="tab_t101_costsheethead3"><!-- multi-page .tab-pane -->
+<?php } ?>
+<table class="table table-striped table-sm ew-view-table">
+<?php if ($t101_costsheethead->cs_date->Visible) { // cs_date ?>
+	<tr id="r_cs_date">
+		<td class="<?php echo $t101_costsheethead_view->TableLeftColumnClass ?>"><span id="elh_t101_costsheethead_cs_date"><?php echo $t101_costsheethead->cs_date->caption() ?></span></td>
+		<td data-name="cs_date"<?php echo $t101_costsheethead->cs_date->cellAttributes() ?>>
+<span id="el_t101_costsheethead_cs_date" data-page="3">
+<span<?php echo $t101_costsheethead->cs_date->viewAttributes() ?>>
+<?php echo $t101_costsheethead->cs_date->getViewValue() ?></span>
 </span>
 </td>
 	</tr>

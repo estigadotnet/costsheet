@@ -126,6 +126,17 @@ namespace PHPMaker2019\costsheet_prj;
 </td>
 		</tr>
 <?php } ?>
+<?php if ($t101_costsheethead->cs_date->Visible) { // cs_date ?>
+		<tr id="r_cs_date">
+			<td class="<?php echo $t101_costsheethead->TableLeftColumnClass ?>"><?php echo $t101_costsheethead->cs_date->caption() ?></td>
+			<td<?php echo $t101_costsheethead->cs_date->cellAttributes() ?>>
+<span id="el_t101_costsheethead_cs_date">
+<span<?php echo $t101_costsheethead->cs_date->viewAttributes() ?>>
+<?php echo $t101_costsheethead->cs_date->getViewValue() ?></span>
+</span>
+</td>
+		</tr>
+<?php } ?>
 	</tbody>
 </table>
 </div>

@@ -628,6 +628,7 @@ class t101_costsheethead_add extends t101_costsheethead
 		$this->pol_pod->setVisibility();
 		$this->top_2->setVisibility();
 		$this->no_cont->setVisibility();
+		$this->cs_date->setVisibility();
 		$this->hideFieldsForAddEdit();
 
 		// Do not use lookup cache
@@ -796,6 +797,8 @@ class t101_costsheethead_add extends t101_costsheethead
 		$this->top_2->CurrentValue = "PREPAID";
 		$this->no_cont->CurrentValue = NULL;
 		$this->no_cont->OldValue = $this->no_cont->CurrentValue;
+		$this->cs_date->CurrentValue = NULL;
+		$this->cs_date->OldValue = $this->cs_date->CurrentValue;
 	}
 
 	// Load form values
@@ -904,6 +907,16 @@ class t101_costsheethead_add extends t101_costsheethead
 				$this->no_cont->setFormValue($val);
 		}
 
+		// Check field name 'cs_date' first before field var 'x_cs_date'
+		$val = $CurrentForm->hasValue("cs_date") ? $CurrentForm->getValue("cs_date") : $CurrentForm->getValue("x_cs_date");
+		if (!$this->cs_date->IsDetailKey) {
+			if (IsApi() && $val == NULL)
+				$this->cs_date->Visible = FALSE; // Disable update for API request
+			else
+				$this->cs_date->setFormValue($val);
+			$this->cs_date->CurrentValue = UnFormatDateTime($this->cs_date->CurrentValue, 11);
+		}
+
 		// Check field name 'id' first before field var 'x_id'
 		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
 	}
@@ -923,6 +936,8 @@ class t101_costsheethead_add extends t101_costsheethead
 		$this->pol_pod->CurrentValue = $this->pol_pod->FormValue;
 		$this->top_2->CurrentValue = $this->top_2->FormValue;
 		$this->no_cont->CurrentValue = $this->no_cont->FormValue;
+		$this->cs_date->CurrentValue = $this->cs_date->FormValue;
+		$this->cs_date->CurrentValue = UnFormatDateTime($this->cs_date->CurrentValue, 11);
 	}
 
 	// Load row based on key values
@@ -972,6 +987,7 @@ class t101_costsheethead_add extends t101_costsheethead
 		$this->pol_pod->setDbValue($row['pol_pod']);
 		$this->top_2->setDbValue($row['top_2']);
 		$this->no_cont->setDbValue($row['no_cont']);
+		$this->cs_date->setDbValue($row['cs_date']);
 	}
 
 	// Return a row with default values
@@ -991,6 +1007,7 @@ class t101_costsheethead_add extends t101_costsheethead
 		$row['pol_pod'] = $this->pol_pod->CurrentValue;
 		$row['top_2'] = $this->top_2->CurrentValue;
 		$row['no_cont'] = $this->no_cont->CurrentValue;
+		$row['cs_date'] = $this->cs_date->CurrentValue;
 		return $row;
 	}
 
@@ -1040,6 +1057,7 @@ class t101_costsheethead_add extends t101_costsheethead
 		// pol_pod
 		// top_2
 		// no_cont
+		// cs_date
 
 		if ($this->RowType == ROWTYPE_VIEW) { // View row
 
@@ -1140,6 +1158,11 @@ class t101_costsheethead_add extends t101_costsheethead
 			$this->no_cont->ViewValue = $this->no_cont->CurrentValue;
 			$this->no_cont->ViewCustomAttributes = "";
 
+			// cs_date
+			$this->cs_date->ViewValue = $this->cs_date->CurrentValue;
+			$this->cs_date->ViewValue = FormatDateTime($this->cs_date->ViewValue, 11);
+			$this->cs_date->ViewCustomAttributes = "";
+
 			// liner_id
 			$this->liner_id->LinkCustomAttributes = "";
 			$this->liner_id->HrefValue = "";
@@ -1194,6 +1217,11 @@ class t101_costsheethead_add extends t101_costsheethead
 			$this->no_cont->LinkCustomAttributes = "";
 			$this->no_cont->HrefValue = "";
 			$this->no_cont->TooltipValue = "";
+
+			// cs_date
+			$this->cs_date->LinkCustomAttributes = "";
+			$this->cs_date->HrefValue = "";
+			$this->cs_date->TooltipValue = "";
 		} elseif ($this->RowType == ROWTYPE_ADD) { // Add row
 
 			// liner_id
@@ -1300,6 +1328,12 @@ class t101_costsheethead_add extends t101_costsheethead
 			$this->no_cont->EditValue = HtmlEncode($this->no_cont->CurrentValue);
 			$this->no_cont->PlaceHolder = RemoveHtml($this->no_cont->caption());
 
+			// cs_date
+			$this->cs_date->EditAttrs["class"] = "form-control";
+			$this->cs_date->EditCustomAttributes = "";
+			$this->cs_date->EditValue = HtmlEncode(FormatDateTime($this->cs_date->CurrentValue, 11));
+			$this->cs_date->PlaceHolder = RemoveHtml($this->cs_date->caption());
+
 			// Add refer script
 			// liner_id
 
@@ -1345,6 +1379,10 @@ class t101_costsheethead_add extends t101_costsheethead
 			// no_cont
 			$this->no_cont->LinkCustomAttributes = "";
 			$this->no_cont->HrefValue = "";
+
+			// cs_date
+			$this->cs_date->LinkCustomAttributes = "";
+			$this->cs_date->HrefValue = "";
 		}
 		if ($this->RowType == ROWTYPE_ADD || $this->RowType == ROWTYPE_EDIT || $this->RowType == ROWTYPE_SEARCH) // Add/Edit/Search row
 			$this->setupFieldTitles();
@@ -1428,6 +1466,14 @@ class t101_costsheethead_add extends t101_costsheethead
 				AddMessage($FormError, str_replace("%s", $this->no_cont->caption(), $this->no_cont->RequiredErrorMessage));
 			}
 		}
+		if ($this->cs_date->Required) {
+			if (!$this->cs_date->IsDetailKey && $this->cs_date->FormValue != NULL && $this->cs_date->FormValue == "") {
+				AddMessage($FormError, str_replace("%s", $this->cs_date->caption(), $this->cs_date->RequiredErrorMessage));
+			}
+		}
+		if (!CheckEuroDate($this->cs_date->FormValue)) {
+			AddMessage($FormError, $this->cs_date->errorMessage());
+		}
 
 		// Validate detail grid
 		$detailTblVar = explode(",", $this->getCurrentDetailTable());
@@ -1497,6 +1543,9 @@ class t101_costsheethead_add extends t101_costsheethead
 
 		// no_cont
 		$this->no_cont->setDbValueDef($rsnew, $this->no_cont->CurrentValue, "", FALSE);
+
+		// cs_date
+		$this->cs_date->setDbValueDef($rsnew, UnFormatDateTime($this->cs_date->CurrentValue, 11), CurrentDate(), FALSE);
 
 		// Call Row Inserting event
 		$rs = ($rsold) ? $rsold->fields : NULL;
@@ -1611,6 +1660,7 @@ class t101_costsheethead_add extends t101_costsheethead
 		$pages->add(0);
 		$pages->add(1);
 		$pages->add(2);
+		$pages->add(3);
 		$this->MultiPages = $pages;
 	}
 

@@ -112,6 +112,14 @@ ft101_costsheetheadadd.validate = function() {
 			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
 				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t101_costsheethead->no_cont->caption(), $t101_costsheethead->no_cont->RequiredErrorMessage)) ?>");
 		<?php } ?>
+		<?php if ($t101_costsheethead_add->cs_date->Required) { ?>
+			elm = this.getElements("x" + infix + "_cs_date");
+			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
+				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t101_costsheethead->cs_date->caption(), $t101_costsheethead->cs_date->RequiredErrorMessage)) ?>");
+		<?php } ?>
+			elm = this.getElements("x" + infix + "_cs_date");
+			if (elm && !ew.checkEuroDate(elm.value))
+				return this.onError(elm, "<?php echo JsEncode($t101_costsheethead->cs_date->errorMessage()) ?>");
 
 			// Fire Form_CustomValidate event
 			if (!this.Form_CustomValidate(fobj))
@@ -176,6 +184,7 @@ $t101_costsheethead_add->showMessage();
 	<ul class="<?php echo $t101_costsheethead_add->MultiPages->navStyle() ?>">
 		<li class="nav-item"><a class="nav-link<?php echo $t101_costsheethead_add->MultiPages->pageStyle("1") ?>" href="#tab_t101_costsheethead1" data-toggle="tab"><?php echo $t101_costsheethead->pageCaption(1) ?></a></li>
 		<li class="nav-item"><a class="nav-link<?php echo $t101_costsheethead_add->MultiPages->pageStyle("2") ?>" href="#tab_t101_costsheethead2" data-toggle="tab"><?php echo $t101_costsheethead->pageCaption(2) ?></a></li>
+		<li class="nav-item"><a class="nav-link<?php echo $t101_costsheethead_add->MultiPages->pageStyle("3") ?>" href="#tab_t101_costsheethead3" data-toggle="tab"><?php echo $t101_costsheethead->pageCaption(3) ?></a></li>
 	</ul>
 	<div class="tab-content"><!-- multi-page tabs .tab-content -->
 		<div class="tab-pane<?php echo $t101_costsheethead_add->MultiPages->pageStyle("1") ?>" id="tab_t101_costsheethead1"><!-- multi-page .tab-pane -->
@@ -321,6 +330,25 @@ $t101_costsheethead_add->showMessage();
 <?php } ?>
 </div><!-- /page* -->
 		</div><!-- /multi-page .tab-pane -->
+		<div class="tab-pane<?php echo $t101_costsheethead_add->MultiPages->pageStyle("3") ?>" id="tab_t101_costsheethead3"><!-- multi-page .tab-pane -->
+<div class="ew-add-div"><!-- page* -->
+<?php if ($t101_costsheethead->cs_date->Visible) { // cs_date ?>
+	<div id="r_cs_date" class="form-group row">
+		<label id="elh_t101_costsheethead_cs_date" for="x_cs_date" class="<?php echo $t101_costsheethead_add->LeftColumnClass ?>"><?php echo $t101_costsheethead->cs_date->caption() ?><?php echo ($t101_costsheethead->cs_date->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+		<div class="<?php echo $t101_costsheethead_add->RightColumnClass ?>"><div<?php echo $t101_costsheethead->cs_date->cellAttributes() ?>>
+<span id="el_t101_costsheethead_cs_date">
+<input type="text" data-table="t101_costsheethead" data-field="x_cs_date" data-page="3" data-format="11" name="x_cs_date" id="x_cs_date" placeholder="<?php echo HtmlEncode($t101_costsheethead->cs_date->getPlaceHolder()) ?>" value="<?php echo $t101_costsheethead->cs_date->EditValue ?>"<?php echo $t101_costsheethead->cs_date->editAttributes() ?>>
+<?php if (!$t101_costsheethead->cs_date->ReadOnly && !$t101_costsheethead->cs_date->Disabled && !isset($t101_costsheethead->cs_date->EditAttrs["readonly"]) && !isset($t101_costsheethead->cs_date->EditAttrs["disabled"])) { ?>
+<script>
+ew.createDateTimePicker("ft101_costsheetheadadd", "x_cs_date", {"ignoreReadonly":true,"useCurrent":false,"format":11});
+</script>
+<?php } ?>
+</span>
+<?php echo $t101_costsheethead->cs_date->CustomMsg ?></div></div>
+	</div>
+<?php } ?>
+</div><!-- /page* -->
+		</div><!-- /multi-page .tab-pane -->
 	</div><!-- /multi-page tabs .tab-content -->
 </div><!-- /multi-page tabs -->
 </div><!-- /multi-page -->
@@ -350,6 +378,8 @@ if (DEBUG_ENABLED)
 
 // Write your table-specific startup script here
 // document.write("page loaded");
+	// tampilkan TANGGAL HARI INI
+	//$("[data-table=t101_costsheethead][data-field=x_cs_date]").val("<?php echo date('d-m-Y H:i:s');?>");
 
 </script>
 <?php include_once "footer.php" ?>
